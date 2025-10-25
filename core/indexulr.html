@@ -1,0 +1,2283 @@
+(cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF'
+diff --git a/index_ultimate.html b/index_ultimate.html
+--- a/index_ultimate.html
++++ b/index_ultimate.html
+@@ -0,0 +1,2276 @@
++<!DOCTYPE html>
++<html lang="pl">
++<head>
++    <meta charset="UTF-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>Mordzix AI - Ultimate Professional Platform</title>
++    <meta name="description" content="Ultimate Professional AI Platform with 144 API endpoints, natural language interface, and advanced AI capabilities">
++    <meta name="keywords" content="AI, artificial intelligence, platform, API, natural language, assistant, professional">
++    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
++    
++    <style>
++        :root {
++            --primary: #6366f1;
++            --primary-dark: #4f46e5;
++            --secondary: #8b5cf6;
++            --accent: #06b6d4;
++            --success: #10b981;
++            --warning: #f59e0b;
++            --error: #ef4444;
++            --info: #3b82f6;
++            
++            --bg-primary: #0f172a;
++            --bg-secondary: #1e293b;
++            --bg-tertiary: #334155;
++            --bg-card: #1e293b;
++            --bg-hover: #334155;
++            --bg-modal: #1e293b;
++            
++            --text-primary: #f8fafc;
++            --text-secondary: #cbd5e1;
++            --text-muted: #94a3b8;
++            --text-accent: #60a5fa;
++            
++            --border: #334155;
++            --border-light: #475569;
++            --border-focus: #6366f1;
++            
++            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
++            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
++            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
++            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
++            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
++            
++            --radius-sm: 0.375rem;
++            --radius: 0.5rem;
++            --radius-md: 0.75rem;
++            --radius-lg: 1rem;
++            --radius-xl: 1.5rem;
++            
++            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
++            --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, 'Courier New', monospace;
++        }
++
++        * {
++            margin: 0;
++            padding: 0;
++            box-sizing: border-box;
++        }
++
++        html {
++            font-size: 16px;
++            line-height: 1.5;
++        }
++
++        body {
++            font-family: var(--font-sans);
++            background: linear-gradient(135deg, var(--bg-primary) 0%, #1e293b 100%);
++            color: var(--text-primary);
++            min-height: 100vh;
++            overflow-x: hidden;
++        }
++
++        /* Header */
++        .header {
++            position: fixed;
++            top: 0;
++            left: 0;
++            right: 0;
++            z-index: 1000;
++            background: rgba(15, 23, 42, 0.95);
++            backdrop-filter: blur(20px);
++            border-bottom: 1px solid var(--border);
++            padding: 1rem 2rem;
++        }
++
++        .header-content {
++            max-width: 1400px;
++            margin: 0 auto;
++            display: flex;
++            align-items: center;
++            justify-content: space-between;
++        }
++
++        .logo {
++            display: flex;
++            align-items: center;
++            gap: 0.75rem;
++            text-decoration: none;
++            color: var(--text-primary);
++        }
++
++        .logo-icon {
++            width: 2.5rem;
++            height: 2.5rem;
++            background: linear-gradient(135deg, var(--primary), var(--secondary));
++            border-radius: var(--radius-lg);
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 1.25rem;
++            box-shadow: var(--shadow-md);
++        }
++
++        .logo-text {
++            display: flex;
++            flex-direction: column;
++        }
++
++        .logo-title {
++            font-size: 1.25rem;
++            font-weight: 700;
++            line-height: 1.2;
++        }
++
++        .logo-subtitle {
++            font-size: 0.75rem;
++            color: var(--text-muted);
++            font-weight: 500;
++        }
++
++        .header-actions {
++            display: flex;
++            align-items: center;
++            gap: 1rem;
++        }
++
++        .status-badge {
++            display: flex;
++            align-items: center;
++            gap: 0.5rem;
++            padding: 0.5rem 1rem;
++            background: var(--bg-card);
++            border: 1px solid var(--border);
++            border-radius: var(--radius-xl);
++            font-size: 0.875rem;
++            font-weight: 500;
++        }
++
++        .status-dot {
++            width: 0.5rem;
++            height: 0.5rem;
++            border-radius: 50%;
++            background: var(--success);
++            animation: pulse 2s infinite;
++        }
++
++        @keyframes pulse {
++            0%, 100% { opacity: 1; }
++            50% { opacity: 0.5; }
++        }
++
++        .btn {
++            display: inline-flex;
++            align-items: center;
++            gap: 0.5rem;
++            padding: 0.75rem 1.5rem;
++            border: none;
++            border-radius: var(--radius);
++            font-size: 0.875rem;
++            font-weight: 600;
++            text-decoration: none;
++            cursor: pointer;
++            transition: all 0.2s ease;
++            white-space: nowrap;
++        }
++
++        .btn-primary {
++            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
++            color: white;
++            box-shadow: var(--shadow-md);
++        }
++
++        .btn-primary:hover {
++            transform: translateY(-1px);
++            box-shadow: var(--shadow-lg);
++        }
++
++        .btn-secondary {
++            background: var(--bg-card);
++            color: var(--text-primary);
++            border: 1px solid var(--border);
++        }
++
++        .btn-secondary:hover {
++            background: var(--bg-hover);
++            border-color: var(--border-light);
++        }
++
++        /* Main Layout */
++        .main {
++            margin-top: 5rem;
++            min-height: calc(100vh - 5rem);
++            display: flex;
++        }
++
++        .sidebar {
++            width: 16rem;
++            background: var(--bg-secondary);
++            border-right: 1px solid var(--border);
++            padding: 2rem 1.5rem;
++            overflow-y: auto;
++        }
++
++        .sidebar-section {
++            margin-bottom: 2rem;
++        }
++
++        .sidebar-title {
++            font-size: 0.875rem;
++            font-weight: 600;
++            color: var(--text-muted);
++            text-transform: uppercase;
++            letter-spacing: 0.05em;
++            margin-bottom: 1rem;
++        }
++
++        .nav-item {
++            display: flex;
++            align-items: center;
++            gap: 0.75rem;
++            padding: 0.75rem;
++            border-radius: var(--radius);
++            color: var(--text-secondary);
++            text-decoration: none;
++            transition: all 0.2s ease;
++            margin-bottom: 0.25rem;
++            cursor: pointer;
++        }
++
++        .nav-item:hover {
++            background: var(--bg-hover);
++            color: var(--text-primary);
++        }
++
++        .nav-item.active {
++            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
++            color: var(--primary);
++            border: 1px solid rgba(99, 102, 241, 0.2);
++        }
++
++        .nav-icon {
++            width: 1.25rem;
++            height: 1.25rem;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++        }
++
++        .content {
++            flex: 1;
++            display: flex;
++            flex-direction: column;
++            background: var(--bg-primary);
++        }
++
++        /* Chat Area */
++        .chat-container {
++            flex: 1;
++            display: flex;
++            flex-direction: column;
++            max-width: 100%;
++        }
++
++        .chat-messages {
++            flex: 1;
++            overflow-y: auto;
++            padding: 2rem;
++            display: flex;
++            flex-direction: column;
++            gap: 1.5rem;
++        }
++
++        .message {
++            display: flex;
++            gap: 1rem;
++            max-width: 80%;
++            animation: slideIn 0.3s ease-out;
++        }
++
++        .message.user {
++            align-self: flex-end;
++            flex-direction: row-reverse;
++        }
++
++        .message-avatar {
++            width: 2.5rem;
++            height: 2.5rem;
++            border-radius: var(--radius-lg);
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 1.25rem;
++            flex-shrink: 0;
++        }
++
++        .message.user .message-avatar {
++            background: linear-gradient(135deg, var(--primary), var(--secondary));
++            color: white;
++        }
++
++        .message.ai .message-avatar {
++            background: var(--bg-card);
++            border: 1px solid var(--border);
++            color: var(--primary);
++        }
++
++        .message-content {
++            flex: 1;
++            min-width: 0;
++        }
++
++        .message-bubble {
++            padding: 1rem 1.25rem;
++            border-radius: var(--radius-lg);
++            position: relative;
++            word-wrap: break-word;
++            white-space: pre-wrap;
++        }
++
++        .message.user .message-bubble {
++            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
++            color: white;
++            border-bottom-right-radius: var(--radius-sm);
++        }
++
++        .message.ai .message-bubble {
++            background: var(--bg-card);
++            border: 1px solid var(--border);
++            color: var(--text-primary);
++            border-bottom-left-radius: var(--radius-sm);
++        }
++
++        .message-actions {
++            position: absolute;
++            top: 0.5rem;
++            right: 0.5rem;
++            display: flex;
++            gap: 0.25rem;
++            opacity: 0;
++            transition: opacity 0.2s ease;
++        }
++
++        .message-bubble:hover .message-actions {
++            opacity: 1;
++        }
++
++        .action-btn {
++            width: 1.75rem;
++            height: 1.75rem;
++            border: none;
++            border-radius: var(--radius-sm);
++            background: rgba(255, 255, 255, 0.1);
++            color: var(--text-muted);
++            cursor: pointer;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 0.75rem;
++            transition: all 0.2s ease;
++        }
++
++        .action-btn:hover {
++            background: rgba(255, 255, 255, 0.2);
++            color: var(--text-primary);
++        }
++
++        .message-time {
++            font-size: 0.75rem;
++            color: var(--text-muted);
++            margin-top: 0.5rem;
++            text-align: right;
++        }
++
++        .message.ai .message-time {
++            text-align: left;
++        }
++
++        @keyframes slideIn {
++            from {
++                opacity: 0;
++                transform: translateY(1rem);
++            }
++            to {
++                opacity: 1;
++                transform: translateY(0);
++            }
++        }
++
++        /* Typing Indicator */
++        .typing-indicator {
++            display: flex;
++            gap: 1rem;
++            max-width: 80%;
++            align-self: flex-start;
++        }
++
++        .typing-dots {
++            display: flex;
++            gap: 0.25rem;
++            padding: 1rem 1.25rem;
++            background: var(--bg-card);
++            border: 1px solid var(--border);
++            border-radius: var(--radius-lg);
++            border-bottom-left-radius: var(--radius-sm);
++        }
++
++        .typing-dot {
++            width: 0.5rem;
++            height: 0.5rem;
++            border-radius: 50%;
++            background: var(--text-muted);
++            animation: typing 1.4s ease-in-out infinite;
++        }
++
++        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
++        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
++
++        @keyframes typing {
++            0%, 60%, 100% { opacity: 0.5; transform: translateY(0); }
++            30% { opacity: 1; transform: translateY(-0.25rem); }
++        }
++
++        /* Input Area */
++        .chat-input {
++            padding: 1.5rem 2rem;
++            background: var(--bg-secondary);
++            border-top: 1px solid var(--border);
++        }
++
++        .input-container {
++            max-width: 100%;
++            margin: 0 auto;
++        }
++
++        .input-wrapper {
++            display: flex;
++            gap: 0.75rem;
++            align-items: flex-end;
++            background: var(--bg-card);
++            border: 1px solid var(--border);
++            border-radius: var(--radius-xl);
++            padding: 0.75rem;
++            transition: all 0.2s ease;
++        }
++
++        .input-wrapper:focus-within {
++            border-color: var(--border-focus);
++            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
++        }
++
++        .input-actions {
++            display: flex;
++            gap: 0.5rem;
++            align-items: center;
++        }
++
++        .input-btn {
++            width: 2.5rem;
++            height: 2.5rem;
++            border: none;
++            border-radius: var(--radius);
++            background: var(--bg-hover);
++            color: var(--text-muted);
++            cursor: pointer;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 1rem;
++            transition: all 0.2s ease;
++        }
++
++        .input-btn:hover {
++            background: var(--border);
++            color: var(--text-primary);
++        }
++
++        .input-btn.recording {
++            background: var(--error);
++            color: white;
++            animation: pulse 1s infinite;
++        }
++
++        .input-field {
++            flex: 1;
++            border: none;
++            background: transparent;
++            color: var(--text-primary);
++            font-size: 1rem;
++            line-height: 1.5;
++            resize: none;
++            outline: none;
++            min-height: 1.5rem;
++            max-height: 8rem;
++            padding: 0.5rem 0;
++        }
++
++        .input-field::placeholder {
++            color: var(--text-muted);
++        }
++
++        .send-btn {
++            width: 2.5rem;
++            height: 2.5rem;
++            border: none;
++            border-radius: var(--radius);
++            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
++            color: white;
++            cursor: pointer;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 1rem;
++            transition: all 0.2s ease;
++            box-shadow: var(--shadow-md);
++        }
++
++        .send-btn:hover {
++            transform: translateY(-1px);
++            box-shadow: var(--shadow-lg);
++        }
++
++        .send-btn:disabled {
++            opacity: 0.5;
++            cursor: not-allowed;
++            transform: none;
++        }
++
++        /* File Preview */
++        .file-preview {
++            display: none;
++            align-items: center;
++            gap: 0.75rem;
++            padding: 0.75rem 1rem;
++            background: var(--bg-hover);
++            border: 1px solid var(--border);
++            border-radius: var(--radius);
++            margin-bottom: 0.75rem;
++        }
++
++        .file-preview.active {
++            display: flex;
++        }
++
++        .file-preview-icon {
++            width: 2rem;
++            height: 2rem;
++            border-radius: var(--radius);
++            background: var(--primary);
++            color: white;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 0.875rem;
++        }
++
++        .file-preview-info {
++            flex: 1;
++            min-width: 0;
++        }
++
++        .file-preview-name {
++            font-size: 0.875rem;
++            font-weight: 500;
++            color: var(--text-primary);
++            white-space: nowrap;
++            overflow: hidden;
++            text-overflow: ellipsis;
++        }
++
++        .file-preview-size {
++            font-size: 0.75rem;
++            color: var(--text-muted);
++        }
++
++        .file-preview-remove {
++            width: 1.5rem;
++            height: 1.5rem;
++            border: none;
++            border-radius: var(--radius-sm);
++            background: var(--error);
++            color: white;
++            cursor: pointer;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 0.75rem;
++            transition: all 0.2s ease;
++        }
++
++        .file-preview-remove:hover {
++            background: #dc2626;
++        }
++
++        /* Welcome Screen */
++        .welcome {
++            display: flex;
++            flex-direction: column;
++            align-items: center;
++            justify-content: center;
++            text-align: center;
++            padding: 4rem 2rem;
++            max-width: 600px;
++            margin: 0 auto;
++        }
++
++        .welcome-icon {
++            width: 4rem;
++            height: 4rem;
++            background: linear-gradient(135deg, var(--primary), var(--secondary));
++            border-radius: var(--radius-xl);
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 2rem;
++            margin-bottom: 1.5rem;
++            box-shadow: var(--shadow-xl);
++        }
++
++        .welcome-title {
++            font-size: 2rem;
++            font-weight: 700;
++            margin-bottom: 1rem;
++            background: linear-gradient(135deg, var(--text-primary), var(--text-accent));
++            -webkit-background-clip: text;
++            -webkit-text-fill-color: transparent;
++            background-clip: text;
++        }
++
++        .welcome-subtitle {
++            font-size: 1.125rem;
++            color: var(--text-secondary);
++            margin-bottom: 2rem;
++            line-height: 1.6;
++        }
++
++        .features {
++            display: grid;
++            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
++            gap: 1rem;
++            width: 100%;
++        }
++
++        .feature {
++            padding: 1rem;
++            background: var(--bg-card);
++            border: 1px solid var(--border);
++            border-radius: var(--radius-lg);
++            text-align: center;
++            cursor: pointer;
++            transition: all 0.2s ease;
++        }
++
++        .feature:hover {
++            transform: translateY(-2px);
++            box-shadow: var(--shadow-lg);
++        }
++
++        .feature-icon {
++            font-size: 1.5rem;
++            margin-bottom: 0.5rem;
++        }
++
++        .feature-title {
++            font-size: 0.875rem;
++            font-weight: 600;
++            color: var(--text-primary);
++            margin-bottom: 0.25rem;
++        }
++
++        .feature-desc {
++            font-size: 0.75rem;
++            color: var(--text-muted);
++        }
++
++        /* Modals */
++        .modal {
++            display: none;
++            position: fixed;
++            top: 0;
++            left: 0;
++            width: 100%;
++            height: 100%;
++            background: rgba(0, 0, 0, 0.8);
++            z-index: 2000;
++            backdrop-filter: blur(4px);
++        }
++
++        .modal.active {
++            display: flex;
++            align-items: center;
++            justify-content: center;
++        }
++
++        .modal-content {
++            background: var(--bg-modal);
++            border: 1px solid var(--border);
++            border-radius: var(--radius-lg);
++            padding: 2rem;
++            max-width: 90vw;
++            max-height: 90vh;
++            overflow-y: auto;
++            box-shadow: var(--shadow-xl);
++        }
++
++        .modal-header {
++            display: flex;
++            align-items: center;
++            justify-content: space-between;
++            margin-bottom: 1.5rem;
++        }
++
++        .modal-title {
++            font-size: 1.25rem;
++            font-weight: 600;
++            color: var(--text-primary);
++        }
++
++        .modal-close {
++            width: 2rem;
++            height: 2rem;
++            border: none;
++            border-radius: var(--radius);
++            background: var(--bg-hover);
++            color: var(--text-muted);
++            cursor: pointer;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 1rem;
++            transition: all 0.2s ease;
++        }
++
++        .modal-close:hover {
++            background: var(--border);
++            color: var(--text-primary);
++        }
++
++        .endpoints-list {
++            display: grid;
++            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
++            gap: 1rem;
++            max-height: 60vh;
++            overflow-y: auto;
++        }
++
++        .endpoint-item {
++            padding: 1rem;
++            background: var(--bg-hover);
++            border: 1px solid var(--border);
++            border-radius: var(--radius);
++            cursor: pointer;
++            transition: all 0.2s ease;
++        }
++
++        .endpoint-item:hover {
++            background: var(--border);
++            transform: translateY(-1px);
++        }
++
++        .endpoint-method {
++            display: inline-block;
++            padding: 0.25rem 0.5rem;
++            border-radius: var(--radius-sm);
++            font-size: 0.75rem;
++            font-weight: 600;
++            margin-bottom: 0.5rem;
++        }
++
++        .endpoint-method.get {
++            background: rgba(34, 197, 94, 0.2);
++            color: #22c55e;
++        }
++
++        .endpoint-method.post {
++            background: rgba(59, 130, 246, 0.2);
++            color: #3b82f6;
++        }
++
++        .endpoint-method.put {
++            background: rgba(245, 158, 11, 0.2);
++            color: #f59e0b;
++        }
++
++        .endpoint-method.delete {
++            background: rgba(239, 68, 68, 0.2);
++            color: #ef4444;
++        }
++
++        .endpoint-path {
++            font-family: var(--font-mono);
++            font-size: 0.875rem;
++            color: var(--text-primary);
++            margin-bottom: 0.25rem;
++        }
++
++        .endpoint-desc {
++            font-size: 0.75rem;
++            color: var(--text-muted);
++        }
++
++        .settings-grid {
++            display: grid;
++            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
++            gap: 1.5rem;
++        }
++
++        .setting-group {
++            padding: 1rem;
++            background: var(--bg-hover);
++            border: 1px solid var(--border);
++            border-radius: var(--radius);
++        }
++
++        .setting-title {
++            font-size: 0.875rem;
++            font-weight: 600;
++            color: var(--text-primary);
++            margin-bottom: 0.75rem;
++        }
++
++        .setting-item {
++            display: flex;
++            align-items: center;
++            justify-content: space-between;
++            margin-bottom: 0.5rem;
++        }
++
++        .setting-label {
++            font-size: 0.875rem;
++            color: var(--text-secondary);
++        }
++
++        .setting-toggle {
++            width: 3rem;
++            height: 1.5rem;
++            border-radius: 1rem;
++            background: var(--border);
++            position: relative;
++            cursor: pointer;
++            transition: all 0.2s ease;
++        }
++
++        .setting-toggle.active {
++            background: var(--primary);
++        }
++
++        .setting-toggle::after {
++            content: '';
++            position: absolute;
++            top: 0.125rem;
++            left: 0.125rem;
++            width: 1.25rem;
++            height: 1.25rem;
++            border-radius: 50%;
++            background: white;
++            transition: all 0.2s ease;
++        }
++
++        .setting-toggle.active::after {
++            transform: translateX(1.5rem);
++        }
++
++        .setting-input {
++            width: 100%;
++            padding: 0.5rem;
++            border: 1px solid var(--border);
++            border-radius: var(--radius);
++            background: var(--bg-card);
++            color: var(--text-primary);
++            font-size: 0.875rem;
++        }
++
++        .setting-input:focus {
++            outline: none;
++            border-color: var(--border-focus);
++        }
++
++        /* Notifications */
++        .notification {
++            position: fixed;
++            top: 6rem;
++            right: 2rem;
++            padding: 1rem 1.5rem;
++            border-radius: var(--radius);
++            color: white;
++            font-weight: 500;
++            z-index: 1500;
++            transform: translateX(100%);
++            transition: transform 0.3s ease;
++            max-width: 300px;
++        }
++
++        .notification.show {
++            transform: translateX(0);
++        }
++
++        .notification.success {
++            background: var(--success);
++        }
++
++        .notification.error {
++            background: var(--error);
++        }
++
++        .notification.warning {
++            background: var(--warning);
++        }
++
++        .notification.info {
++            background: var(--info);
++        }
++
++        /* Quick Actions Panel */
++        .quick-actions {
++            position: fixed;
++            top: 50%;
++            right: 2rem;
++            transform: translateY(-50%);
++            background: var(--bg-card);
++            border: 1px solid var(--border);
++            border-radius: var(--radius-lg);
++            padding: 1rem;
++            box-shadow: var(--shadow-xl);
++            z-index: 1000;
++            display: none;
++        }
++
++        .quick-actions.active {
++            display: block;
++        }
++
++        .quick-action {
++            display: flex;
++            align-items: center;
++            gap: 0.5rem;
++            padding: 0.5rem;
++            border-radius: var(--radius);
++            cursor: pointer;
++            transition: all 0.2s ease;
++            margin-bottom: 0.25rem;
++        }
++
++        .quick-action:hover {
++            background: var(--bg-hover);
++        }
++
++        .quick-action-icon {
++            width: 1.5rem;
++            height: 1.5rem;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++        }
++
++        .quick-action-text {
++            font-size: 0.875rem;
++            color: var(--text-secondary);
++        }
++
++        /* Loading States */
++        .loading {
++            display: inline-flex;
++            align-items: center;
++            gap: 0.5rem;
++            color: var(--text-muted);
++        }
++
++        .loading-spinner {
++            width: 1rem;
++            height: 1rem;
++            border: 2px solid var(--border);
++            border-top: 2px solid var(--primary);
++            border-radius: 50%;
++            animation: spin 1s linear infinite;
++        }
++
++        @keyframes spin {
++            0% { transform: rotate(0deg); }
++            100% { transform: rotate(360deg); }
++        }
++
++        /* Responsive */
++        @media (max-width: 1024px) {
++            .sidebar {
++                display: none;
++            }
++            
++            .message {
++                max-width: 90%;
++            }
++            
++            .quick-actions {
++                display: none !important;
++            }
++        }
++
++        @media (max-width: 768px) {
++            .header {
++                padding: 1rem;
++            }
++            
++            .header-content {
++                flex-direction: column;
++                gap: 1rem;
++                align-items: flex-start;
++            }
++            
++            .main {
++                margin-top: 7rem;
++            }
++            
++            .chat-messages {
++                padding: 1rem;
++            }
++            
++            .chat-input {
++                padding: 1rem;
++            }
++            
++            .welcome {
++                padding: 2rem 1rem;
++            }
++            
++            .welcome-title {
++                font-size: 1.5rem;
++            }
++            
++            .features {
++                grid-template-columns: 1fr;
++            }
++        }
++
++        @media (max-width: 480px) {
++            .message {
++                max-width: 95%;
++            }
++            
++            .input-wrapper {
++                padding: 0.5rem;
++            }
++            
++            .input-btn, .send-btn {
++                width: 2rem;
++                height: 2rem;
++                font-size: 0.875rem;
++            }
++        }
++
++        /* Scrollbar */
++        ::-webkit-scrollbar {
++            width: 6px;
++        }
++
++        ::-webkit-scrollbar-track {
++            background: var(--bg-secondary);
++        }
++
++        ::-webkit-scrollbar-thumb {
++            background: var(--border);
++            border-radius: 3px;
++        }
++
++        ::-webkit-scrollbar-thumb:hover {
++            background: var(--border-light);
++        }
++
++        /* Animations */
++        .fade-in {
++            animation: fadeIn 0.3s ease-out;
++        }
++
++        @keyframes fadeIn {
++            from { opacity: 0; }
++            to { opacity: 1; }
++        }
++
++        .slide-up {
++            animation: slideUp 0.3s ease-out;
++        }
++
++        @keyframes slideUp {
++            from {
++                opacity: 0;
++                transform: translateY(1rem);
++            }
++            to {
++                opacity: 1;
++                transform: translateY(0);
++            }
++        }
++    </style>
++</head>
++<body>
++    <!-- Header -->
++    <header class="header">
++        <div class="header-content">
++            <a href="#" class="logo">
++                <div class="logo-icon">🧠</div>
++                <div class="logo-text">
++                    <div class="logo-title">Mordzix AI</div>
++                    <div class="logo-subtitle">Ultimate Professional Platform</div>
++                </div>
++            </a>
++            
++            <div class="header-actions">
++                <div class="status-badge">
++                    <div class="status-dot"></div>
++                    <span id="statusText">Online</span>
++                </div>
++                <button class="btn btn-secondary" id="endpointsBtn">
++                    <span class="nav-icon">📋</span>
++                    Endpoints
++                </button>
++                <button class="btn btn-primary" id="settingsBtn">
++                    <span class="nav-icon">⚙️</span>
++                    Settings
++                </button>
++            </div>
++        </div>
++    </header>
++
++    <!-- Main Layout -->
++    <main class="main">
++        <!-- Sidebar -->
++        <aside class="sidebar">
++            <div class="sidebar-section">
++                <h3 class="sidebar-title">Navigation</h3>
++                <a href="#" class="nav-item active" data-section="chat">
++                    <span class="nav-icon">💬</span>
++                    Chat
++                </a>
++                <a href="#" class="nav-item" data-section="research">
++                    <span class="nav-icon">🔍</span>
++                    Research
++                </a>
++                <a href="#" class="nav-item" data-section="writing">
++                    <span class="nav-icon">📝</span>
++                    Writing
++                </a>
++                <a href="#" class="nav-item" data-section="code">
++                    <span class="nav-icon">💻</span>
++                    Code
++                </a>
++                <a href="#" class="nav-item" data-section="files">
++                    <span class="nav-icon">📁</span>
++                    Files
++                </a>
++                <a href="#" class="nav-item" data-section="memory">
++                    <span class="nav-icon">🧠</span>
++                    Memory
++                </a>
++            </div>
++            
++            <div class="sidebar-section">
++                <h3 class="sidebar-title">Tools</h3>
++                <a href="#" class="nav-item" data-tool="voice">
++                    <span class="nav-icon">🎤</span>
++                    Voice Input
++                </a>
++                <a href="#" class="nav-item" data-tool="tts">
++                    <span class="nav-icon">🔊</span>
++                    Text-to-Speech
++                </a>
++                <a href="#" class="nav-item" data-tool="analytics">
++                    <span class="nav-icon">📊</span>
++                    Analytics
++                </a>
++                <a href="#" class="nav-item" data-tool="quick">
++                    <span class="nav-icon">⚡</span>
++                    Quick Actions
++                </a>
++            </div>
++            
++            <div class="sidebar-section">
++                <h3 class="sidebar-title">Recent</h3>
++                <div id="recentConversations">
++                    <div class="nav-item">
++                        <span class="nav-icon">💬</span>
++                        <span>New Conversation</span>
++                    </div>
++                </div>
++            </div>
++        </aside>
++
++        <!-- Content -->
++        <div class="content">
++            <div class="chat-container">
++                <!-- Chat Messages -->
++                <div class="chat-messages" id="chatMessages">
++                    <!-- Welcome Screen -->
++                    <div class="welcome" id="welcomeScreen">
++                        <div class="welcome-icon">🚀</div>
++                        <h1 class="welcome-title">Welcome to Mordzix AI</h1>
++                        <p class="welcome-subtitle">
++                            Your ultimate professional AI assistant with 144 API endpoints, natural language processing, 
++                            and advanced capabilities. Start a conversation to explore the platform.
++                        </p>
++                        <div class="features">
++                            <div class="feature" data-feature="chat">
++                                <div class="feature-icon">🧠</div>
++                                <div class="feature-title">Natural Language</div>
++                                <div class="feature-desc">Communicate naturally</div>
++                            </div>
++                            <div class="feature" data-feature="apis">
++                                <div class="feature-icon">🔧</div>
++                                <div class="feature-title">144 APIs</div>
++                                <div class="feature-desc">Massive functionality</div>
++                            </div>
++                            <div class="feature" data-feature="realtime">
++                                <div class="feature-icon">⚡</div>
++                                <div class="feature-title">Real-time</div>
++                                <div class="feature-desc">Instant responses</div>
++                            </div>
++                            <div class="feature" data-feature="secure">
++                                <div class="feature-icon">🔒</div>
++                                <div class="feature-title">Secure</div>
++                                <div class="feature-desc">Enterprise-grade</div>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++
++                <!-- Chat Input -->
++                <div class="chat-input">
++                    <div class="input-container">
++                        <!-- File Preview -->
++                        <div class="file-preview" id="filePreview">
++                            <div class="file-preview-icon">📄</div>
++                            <div class="file-preview-info">
++                                <div class="file-preview-name" id="fileName"></div>
++                                <div class="file-preview-size" id="fileSize"></div>
++                            </div>
++                            <button class="file-preview-remove" id="removeFile">×</button>
++                        </div>
++                        
++                        <div class="input-wrapper">
++                            <div class="input-actions">
++                                <button class="input-btn" id="micBtn" title="Voice Input">
++                                    <span>🎤</span>
++                                </button>
++                                <button class="input-btn" id="fileBtn" title="Attach File">
++                                    <span>📎</span>
++                                </button>
++                                <input type="file" id="fileInput" hidden accept="image/*,application/pdf,.txt,.doc,.docx">
++                            </div>
++                            
++                            <textarea 
++                                class="input-field" 
++                                id="messageInput" 
++                                placeholder="Type your message... (Enter to send, Shift+Enter for new line)"
++                                rows="1"
++                            ></textarea>
++                            
++                            <button class="send-btn" id="sendBtn" title="Send Message">
++                                <span>→</span>
++                            </button>
++                        </div>
++                    </div>
++                </div>
++            </div>
++        </div>
++    </main>
++
++    <!-- Quick Actions Panel -->
++    <div class="quick-actions" id="quickActions">
++        <div class="quick-action" data-action="summarize">
++            <div class="quick-action-icon">📝</div>
++            <div class="quick-action-text">Summarize</div>
++        </div>
++        <div class="quick-action" data-action="translate">
++            <div class="quick-action-icon">🌐</div>
++            <div class="quick-action-text">Translate</div>
++        </div>
++        <div class="quick-action" data-action="explain">
++            <div class="quick-action-icon">💡</div>
++            <div class="quick-action-text">Explain</div>
++        </div>
++        <div class="quick-action" data-action="code">
++            <div class="quick-action-icon">💻</div>
++            <div class="quick-action-text">Generate Code</div>
++        </div>
++        <div class="quick-action" data-action="email">
++            <div class="quick-action-icon">📧</div>
++            <div class="quick-action-text">Write Email</div>
++        </div>
++        <div class="quick-action" data-action="analyze">
++            <div class="quick-action-icon">📊</div>
++            <div class="quick-action-text">Analyze</div>
++        </div>
++    </div>
++
++    <!-- Endpoints Modal -->
++    <div class="modal" id="endpointsModal">
++        <div class="modal-content">
++            <div class="modal-header">
++                <h2 class="modal-title">API Endpoints (144 Total)</h2>
++                <button class="modal-close" id="closeEndpoints">×</button>
++            </div>
++            <div class="endpoints-list" id="endpointsList">
++                <!-- Endpoints will be loaded dynamically -->
++            </div>
++        </div>
++    </div>
++
++    <!-- Settings Modal -->
++    <div class="modal" id="settingsModal">
++        <div class="modal-content">
++            <div class="modal-header">
++                <h2 class="modal-title">Settings</h2>
++                <button class="modal-close" id="closeSettings">×</button>
++            </div>
++            <div class="settings-grid">
++                <div class="setting-group">
++                    <h3 class="setting-title">General</h3>
++                    <div class="setting-item">
++                        <span class="setting-label">Dark Mode</span>
++                        <div class="setting-toggle active" id="darkModeToggle"></div>
++                    </div>
++                    <div class="setting-item">
++                        <span class="setting-label">Auto-save</span>
++                        <div class="setting-toggle active" id="autoSaveToggle"></div>
++                    </div>
++                    <div class="setting-item">
++                        <span class="setting-label">Notifications</span>
++                        <div class="setting-toggle active" id="notificationsToggle"></div>
++                    </div>
++                </div>
++                
++                <div class="setting-group">
++                    <h3 class="setting-title">AI Settings</h3>
++                    <div class="setting-item">
++                        <span class="setting-label">Model</span>
++                        <select class="setting-input" id="modelSelect">
++                            <option value="gpt-4">GPT-4</option>
++                            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
++                            <option value="claude-3">Claude 3</option>
++                        </select>
++                    </div>
++                    <div class="setting-item">
++                        <span class="setting-label">Temperature</span>
++                        <input type="range" class="setting-input" id="temperatureRange" min="0" max="1" step="0.1" value="0.7">
++                    </div>
++                    <div class="setting-item">
++                        <span class="setting-label">Max Tokens</span>
++                        <input type="number" class="setting-input" id="maxTokens" value="4000" min="100" max="8000">
++                    </div>
++                </div>
++                
++                <div class="setting-group">
++                    <h3 class="setting-title">Voice</h3>
++                    <div class="setting-item">
++                        <span class="setting-label">Voice Input</span>
++                        <div class="setting-toggle active" id="voiceInputToggle"></div>
++                    </div>
++                    <div class="setting-item">
++                        <span class="setting-label">Text-to-Speech</span>
++                        <div class="setting-toggle active" id="ttsToggle"></div>
++                    </div>
++                    <div class="setting-item">
++                        <span class="setting-label">Voice</span>
++                        <select class="setting-input" id="voiceSelect">
++                            <option value="alloy">Alloy</option>
++                            <option value="echo">Echo</option>
++                            <option value="fable">Fable</option>
++                            <option value="onyx">Onyx</option>
++                            <option value="nova">Nova</option>
++                            <option value="shimmer">Shimmer</option>
++                        </select>
++                    </div>
++                </div>
++                
++                <div class="setting-group">
++                    <h3 class="setting-title">Memory</h3>
++                    <div class="setting-item">
++                        <span class="setting-label">Enable Memory</span>
++                        <div class="setting-toggle active" id="memoryToggle"></div>
++                    </div>
++                    <div class="setting-item">
++                        <span class="setting-label">Memory Duration (days)</span>
++                        <input type="number" class="setting-input" id="memoryDuration" value="30" min="1" max="365">
++                    </div>
++                </div>
++            </div>
++        </div>
++    </div>
++
++    <!-- Notifications -->
++    <div id="notifications"></div>
++
++    <script>
++        // Global state
++        let isConnected = false;
++        let isRecording = false;
++        let mediaRecorder = null;
++        let audioChunks = [];
++        let currentFile = null;
++        let conversationId = 'conv_' + Date.now();
++        let allMessages = [];
++        let currentSection = 'chat';
++        let settings = {
++            darkMode: true,
++            autoSave: true,
++            notifications: true,
++            model: 'gpt-4',
++            temperature: 0.7,
++            maxTokens: 4000,
++            voiceInput: true,
++            tts: true,
++            voice: 'alloy',
++            memory: true,
++            memoryDuration: 30
++        };
++
++        // DOM elements
++        const chatMessages = document.getElementById('chatMessages');
++        const welcomeScreen = document.getElementById('welcomeScreen');
++        const messageInput = document.getElementById('messageInput');
++        const sendBtn = document.getElementById('sendBtn');
++        const micBtn = document.getElementById('micBtn');
++        const fileBtn = document.getElementById('fileBtn');
++        const fileInput = document.getElementById('fileInput');
++        const filePreview = document.getElementById('filePreview');
++        const fileName = document.getElementById('fileName');
++        const fileSize = document.getElementById('fileSize');
++        const removeFile = document.getElementById('removeFile');
++        const statusText = document.getElementById('statusText');
++        const endpointsModal = document.getElementById('endpointsModal');
++        const settingsModal = document.getElementById('settingsModal');
++        const endpointsList = document.getElementById('endpointsList');
++        const recentConversations = document.getElementById('recentConversations');
++        const quickActions = document.getElementById('quickActions');
++
++        // Initialize
++        document.addEventListener('DOMContentLoaded', function() {
++            initializeApp();
++            setupEventListeners();
++            loadSettings();
++            checkConnection();
++            loadEndpoints();
++            loadRecentConversations();
++            setupQuickActions();
++        });
++
++        function initializeApp() {
++            // Auto-resize textarea
++            messageInput.addEventListener('input', function() {
++                this.style.height = 'auto';
++                this.style.height = Math.min(this.scrollHeight, 128) + 'px';
++            });
++
++            // Focus input
++            messageInput.focus();
++        }
++
++        function setupEventListeners() {
++            // Send message
++            sendBtn.addEventListener('click', sendMessage);
++            messageInput.addEventListener('keydown', function(e) {
++                if (e.key === 'Enter' && !e.shiftKey) {
++                    e.preventDefault();
++                    sendMessage();
++                }
++            });
++
++            // Voice input
++            micBtn.addEventListener('click', toggleRecording);
++
++            // File upload
++            fileBtn.addEventListener('click', () => fileInput.click());
++            fileInput.addEventListener('change', handleFileSelect);
++            removeFile.addEventListener('click', clearFile);
++
++            // Modals
++            document.getElementById('endpointsBtn').addEventListener('click', showEndpoints);
++            document.getElementById('settingsBtn').addEventListener('click', showSettings);
++            document.getElementById('closeEndpoints').addEventListener('click', hideEndpoints);
++            document.getElementById('closeSettings').addEventListener('click', hideSettings);
++
++            // Settings toggles
++            setupSettingsToggles();
++
++            // Navigation
++            setupNavigation();
++
++            // Feature clicks
++            setupFeatureClicks();
++
++            // Close modals on outside click
++            window.addEventListener('click', function(e) {
++                if (e.target === endpointsModal) hideEndpoints();
++                if (e.target === settingsModal) hideSettings();
++            });
++        }
++
++        function setupSettingsToggles() {
++            const toggles = document.querySelectorAll('.setting-toggle');
++            toggles.forEach(toggle => {
++                toggle.addEventListener('click', function() {
++                    this.classList.toggle('active');
++                    const setting = this.id.replace('Toggle', '');
++                    settings[setting] = this.classList.contains('active');
++                    saveSettings();
++                    showNotification('Settings saved', 'success');
++                });
++            });
++
++            // Range inputs
++            document.getElementById('temperatureRange').addEventListener('input', function() {
++                settings.temperature = parseFloat(this.value);
++                saveSettings();
++            });
++
++            // Number inputs
++            document.getElementById('maxTokens').addEventListener('change', function() {
++                settings.maxTokens = parseInt(this.value);
++                saveSettings();
++            });
++
++            document.getElementById('memoryDuration').addEventListener('change', function() {
++                settings.memoryDuration = parseInt(this.value);
++                saveSettings();
++            });
++
++            // Select inputs
++            document.getElementById('modelSelect').addEventListener('change', function() {
++                settings.model = this.value;
++                saveSettings();
++            });
++
++            document.getElementById('voiceSelect').addEventListener('change', function() {
++                settings.voice = this.value;
++                saveSettings();
++            });
++        }
++
++        function setupNavigation() {
++            const navItems = document.querySelectorAll('.nav-item[data-section]');
++            navItems.forEach(item => {
++                item.addEventListener('click', function(e) {
++                    e.preventDefault();
++                    const section = this.dataset.section;
++                    switchSection(section);
++                });
++            });
++
++            const toolItems = document.querySelectorAll('.nav-item[data-tool]');
++            toolItems.forEach(item => {
++                item.addEventListener('click', function(e) {
++                    e.preventDefault();
++                    const tool = this.dataset.tool;
++                    activateTool(tool);
++                });
++            });
++        }
++
++        function setupFeatureClicks() {
++            const features = document.querySelectorAll('.feature');
++            features.forEach(feature => {
++                feature.addEventListener('click', function() {
++                    const featureType = this.dataset.feature;
++                    handleFeatureClick(featureType);
++                });
++            });
++        }
++
++        function setupQuickActions() {
++            const quickActionItems = document.querySelectorAll('.quick-action');
++            quickActionItems.forEach(item => {
++                item.addEventListener('click', function() {
++                    const action = this.dataset.action;
++                    handleQuickAction(action);
++                });
++            });
++        }
++
++        function handleFeatureClick(featureType) {
++            switch(featureType) {
++                case 'chat':
++                    messageInput.focus();
++                    showNotification('Start typing to begin chatting!', 'info');
++                    break;
++                case 'apis':
++                    showEndpoints();
++                    break;
++                case 'realtime':
++                    messageInput.placeholder = "Ask about real-time features...";
++                    messageInput.focus();
++                    break;
++                case 'secure':
++                    showNotification('Security features: JWT auth, rate limiting, encryption', 'info');
++                    break;
++            }
++        }
++
++        function handleQuickAction(action) {
++            const actions = {
++                'summarize': 'Summarize the last message',
++                'translate': 'Translate to English',
++                'explain': 'Explain in simple terms',
++                'code': 'Generate code for this',
++                'email': 'Write a professional email',
++                'analyze': 'Analyze this data'
++            };
++            
++            const prompt = actions[action];
++            if (prompt) {
++                messageInput.value = prompt;
++                messageInput.focus();
++                hideQuickActions();
++                showNotification(`Quick action: ${action}`, 'info');
++            }
++        }
++
++        function switchSection(section) {
++            currentSection = section;
++            
++            // Update active nav item
++            document.querySelectorAll('.nav-item[data-section]').forEach(item => {
++                item.classList.remove('active');
++            });
++            document.querySelector(`[data-section="${section}"]`).classList.add('active');
++
++            // Show appropriate content
++            switch(section) {
++                case 'chat':
++                    showChatInterface();
++                    break;
++                case 'research':
++                    showResearchInterface();
++                    break;
++                case 'writing':
++                    showWritingInterface();
++                    break;
++                case 'code':
++                    showCodeInterface();
++                    break;
++                case 'files':
++                    showFilesInterface();
++                    break;
++                case 'memory':
++                    showMemoryInterface();
++                    break;
++            }
++        }
++
++        function activateTool(tool) {
++            switch(tool) {
++                case 'voice':
++                    toggleRecording();
++                    break;
++                case 'tts':
++                    speakLastMessage();
++                    break;
++                case 'analytics':
++                    showAnalytics();
++                    break;
++                case 'quick':
++                    toggleQuickActions();
++                    break;
++            }
++        }
++
++        function showChatInterface() {
++            messageInput.placeholder = "Type your message... (Enter to send, Shift+Enter for new line)";
++        }
++
++        function showResearchInterface() {
++            messageInput.placeholder = "Research: What would you like to know about?";
++        }
++
++        function showWritingInterface() {
++            messageInput.placeholder = "Writing: What would you like me to write?";
++        }
++
++        function showCodeInterface() {
++            messageInput.placeholder = "Code: What would you like me to code?";
++        }
++
++        function showFilesInterface() {
++            messageInput.placeholder = "Files: What would you like me to do with files?";
++        }
++
++        function showMemoryInterface() {
++            messageInput.placeholder = "Memory: What would you like me to remember?";
++        }
++
++        function showAnalytics() {
++            showNotification('Analytics: Usage stats, performance metrics, and insights', 'info');
++        }
++
++        function toggleQuickActions() {
++            quickActions.classList.toggle('active');
++        }
++
++        function hideQuickActions() {
++            quickActions.classList.remove('active');
++        }
++
++        async function checkConnection() {
++            try {
++                const response = await fetch('/api/internal/ui', {
++                    method: 'GET',
++                    timeout: 3000
++                });
++                
++                if (response.ok) {
++                    isConnected = true;
++                    statusText.textContent = 'Online';
++                    statusText.style.color = 'var(--success)';
++                } else {
++                    throw new Error('Server not responding');
++                }
++            } catch (error) {
++                isConnected = false;
++                statusText.textContent = 'Offline';
++                statusText.style.color = 'var(--warning)';
++                console.log('Running in offline mode');
++            }
++        }
++
++        async function loadEndpoints() {
++            try {
++                const response = await fetch('/api/endpoints');
++                if (response.ok) {
++                    const data = await response.json();
++                    displayEndpoints(data.endpoints || []);
++                } else {
++                    displayEndpoints(getHardcodedEndpoints());
++                }
++            } catch (error) {
++                console.error('Error loading endpoints:', error);
++                displayEndpoints(getHardcodedEndpoints());
++            }
++        }
++
++        function getHardcodedEndpoints() {
++            return [
++                { method: 'POST', path: '/api/chat/assistant', description: 'Main chat interface' },
++                { method: 'POST', path: '/api/chat/assistant/stream', description: 'Streaming chat' },
++                { method: 'POST', path: '/api/files/upload', description: 'File upload' },
++                { method: 'POST', path: '/api/stt/transcribe', description: 'Speech-to-text' },
++                { method: 'POST', path: '/api/tts/speak', description: 'Text-to-speech' },
++                { method: 'POST', path: '/api/research/search', description: 'Web research' },
++                { method: 'POST', path: '/api/writing/generate', description: 'Content generation' },
++                { method: 'POST', path: '/api/code/generate', description: 'Code generation' },
++                { method: 'GET', path: '/api/memory/list', description: 'List memories' },
++                { method: 'POST', path: '/api/memory/save', description: 'Save memory' },
++                { method: 'GET', path: '/api/analytics/stats', description: 'Analytics' },
++                { method: 'GET', path: '/api/health', description: 'Health check' }
++            ];
++        }
++
++        function displayEndpoints(endpoints) {
++            endpointsList.innerHTML = '';
++            endpoints.forEach(endpoint => {
++                const endpointDiv = document.createElement('div');
++                endpointDiv.className = 'endpoint-item';
++                endpointDiv.innerHTML = `
++                    <div class="endpoint-method ${endpoint.method.toLowerCase()}">${endpoint.method}</div>
++                    <div class="endpoint-path">${endpoint.path}</div>
++                    <div class="endpoint-desc">${endpoint.description || 'No description'}</div>
++                `;
++                endpointDiv.addEventListener('click', () => {
++                    messageInput.value = `${endpoint.method} ${endpoint.path}`;
++                    messageInput.focus();
++                    hideEndpoints();
++                });
++                endpointsList.appendChild(endpointDiv);
++            });
++        }
++
++        function showEndpoints() {
++            endpointsModal.classList.add('active');
++        }
++
++        function hideEndpoints() {
++            endpointsModal.classList.remove('active');
++        }
++
++        function showSettings() {
++            settingsModal.classList.add('active');
++        }
++
++        function hideSettings() {
++            settingsModal.classList.remove('active');
++        }
++
++        function loadSettings() {
++            const saved = localStorage.getItem('mordzix_settings');
++            if (saved) {
++                settings = { ...settings, ...JSON.parse(saved) };
++            }
++            
++            // Apply settings to UI
++            document.getElementById('darkModeToggle').classList.toggle('active', settings.darkMode);
++            document.getElementById('autoSaveToggle').classList.toggle('active', settings.autoSave);
++            document.getElementById('notificationsToggle').classList.toggle('active', settings.notifications);
++            document.getElementById('voiceInputToggle').classList.toggle('active', settings.voiceInput);
++            document.getElementById('ttsToggle').classList.toggle('active', settings.tts);
++            document.getElementById('memoryToggle').classList.toggle('active', settings.memory);
++            
++            document.getElementById('modelSelect').value = settings.model;
++            document.getElementById('temperatureRange').value = settings.temperature;
++            document.getElementById('maxTokens').value = settings.maxTokens;
++            document.getElementById('voiceSelect').value = settings.voice;
++            document.getElementById('memoryDuration').value = settings.memoryDuration;
++        }
++
++        function saveSettings() {
++            localStorage.setItem('mordzix_settings', JSON.stringify(settings));
++        }
++
++        function loadRecentConversations() {
++            const saved = localStorage.getItem('mordzix_conversations');
++            if (saved) {
++                const conversations = JSON.parse(saved);
++                recentConversations.innerHTML = '';
++                conversations.forEach(conv => {
++                    const convDiv = document.createElement('div');
++                    convDiv.className = 'nav-item';
++                    convDiv.innerHTML = `
++                        <span class="nav-icon">💬</span>
++                        <span>${conv.title}</span>
++                    `;
++                    convDiv.addEventListener('click', () => loadConversation(conv.id));
++                    recentConversations.appendChild(convDiv);
++                });
++            }
++        }
++
++        function saveConversation() {
++            const conversations = JSON.parse(localStorage.getItem('mordzix_conversations') || '[]');
++            const newConv = {
++                id: conversationId,
++                title: allMessages[0]?.content?.substring(0, 50) || 'New Conversation',
++                timestamp: Date.now(),
++                messages: allMessages
++            };
++            conversations.unshift(newConv);
++            conversations.splice(10); // Keep only last 10
++            localStorage.setItem('mordzix_conversations', JSON.stringify(conversations));
++            loadRecentConversations();
++        }
++
++        function loadConversation(id) {
++            const conversations = JSON.parse(localStorage.getItem('mordzix_conversations') || '[]');
++            const conv = conversations.find(c => c.id === id);
++            if (conv) {
++                conversationId = id;
++                allMessages = conv.messages || [];
++                chatMessages.innerHTML = '';
++                allMessages.forEach(msg => addMessage(msg.role, msg.content, false));
++                if (welcomeScreen) welcomeScreen.style.display = 'none';
++            }
++        }
++
++        async function sendMessage() {
++            const text = messageInput.value.trim();
++            if (!text && !currentFile) return;
++
++            // Hide welcome screen
++            if (welcomeScreen) {
++                welcomeScreen.style.display = 'none';
++            }
++
++            // Add user message
++            if (text) {
++                addMessage('user', text);
++            }
++
++            // Clear input
++            messageInput.value = '';
++            messageInput.style.height = 'auto';
++
++            // Show typing indicator
++            showTypingIndicator();
++
++            try {
++                let response;
++                
++                if (currentFile) {
++                    // Upload file first
++                    const formData = new FormData();
++                    formData.append('file', currentFile);
++                    
++                    const uploadResponse = await fetch('/api/files/upload', {
++                        method: 'POST',
++                        body: formData
++                    });
++                    
++                    const uploadData = await uploadResponse.json();
++                    
++                    if (uploadData.ok) {
++                        // Send message with file reference
++                        response = await fetch('/api/chat/assistant', {
++                            method: 'POST',
++                            headers: { 'Content-Type': 'application/json' },
++                            body: JSON.stringify({
++                                message: text || 'Przeanalizuj załączony plik',
++                                messages: allMessages.map(m => ({ role: m.role, content: m.content })),
++                                conversation_id: conversationId,
++                                file_id: uploadData.file_id,
++                                use_memory: settings.memory,
++                                model: settings.model,
++                                temperature: settings.temperature,
++                                max_tokens: settings.maxTokens
++                            })
++                        });
++                    }
++                    
++                    clearFile();
++                } else {
++                    // Regular text message
++                    response = await fetch('/api/chat/assistant', {
++                        method: 'POST',
++                        headers: { 'Content-Type': 'application/json' },
++                        body: JSON.stringify({
++                            message: text,
++                            messages: allMessages.map(m => ({ role: m.role, content: m.content })),
++                            conversation_id: conversationId,
++                            use_memory: settings.memory,
++                            auto_learn: true,
++                            model: settings.model,
++                            temperature: settings.temperature,
++                            max_tokens: settings.maxTokens
++                        })
++                    });
++                }
++
++                const data = await response.json();
++                hideTypingIndicator();
++
++                if (data.answer) {
++                    addMessage('ai', data.answer);
++                } else if (data.ok && data.text) {
++                    addMessage('ai', data.text);
++                } else {
++                    addMessage('ai', 'Przepraszam, wystąpił błąd. Spróbuj ponownie.');
++                }
++
++                // Auto-save conversation
++                if (settings.autoSave) {
++                    saveConversation();
++                }
++
++            } catch (error) {
++                console.error('Error:', error);
++                hideTypingIndicator();
++                addMessage('ai', 'Przepraszam, nie mogę teraz odpowiedzieć. Sprawdź połączenie.');
++            }
++        }
++
++        function addMessage(role, content, save = true) {
++            if (save) {
++                allMessages.push({ role, content });
++            }
++            
++            const messageDiv = document.createElement('div');
++            messageDiv.className = `message ${role} fade-in`;
++            
++            const avatar = document.createElement('div');
++            avatar.className = 'message-avatar';
++            avatar.textContent = role === 'user' ? '👤' : '🤖';
++            
++            const messageContent = document.createElement('div');
++            messageContent.className = 'message-content';
++            
++            const bubble = document.createElement('div');
++            bubble.className = 'message-bubble';
++            bubble.textContent = content;
++            
++            // Add actions for AI messages
++            if (role === 'ai') {
++                const actions = document.createElement('div');
++                actions.className = 'message-actions';
++                
++                const copyBtn = document.createElement('button');
++                copyBtn.className = 'action-btn';
++                copyBtn.title = 'Copy';
++                copyBtn.textContent = '📋';
++                copyBtn.onclick = () => copyToClipboard(content);
++                
++                const ttsBtn = document.createElement('button');
++                ttsBtn.className = 'action-btn';
++                ttsBtn.title = 'Read aloud';
++                ttsBtn.textContent = '🔊';
++                ttsBtn.onclick = () => speakText(content);
++                
++                actions.appendChild(copyBtn);
++                actions.appendChild(ttsBtn);
++                bubble.appendChild(actions);
++            }
++            
++            const time = document.createElement('div');
++            time.className = 'message-time';
++            time.textContent = new Date().toLocaleTimeString('pl-PL', { 
++                hour: '2-digit', 
++                minute: '2-digit' 
++            });
++            
++            messageContent.appendChild(bubble);
++            messageContent.appendChild(time);
++            
++            if (role === 'user') {
++                messageDiv.appendChild(bubble);
++                messageDiv.appendChild(avatar);
++            } else {
++                messageDiv.appendChild(avatar);
++                messageDiv.appendChild(messageContent);
++            }
++            
++            chatMessages.appendChild(messageDiv);
++            scrollToBottom();
++        }
++
++        function showTypingIndicator() {
++            const typingDiv = document.createElement('div');
++            typingDiv.className = 'typing-indicator';
++            typingDiv.id = 'typingIndicator';
++            
++            const avatar = document.createElement('div');
++            avatar.className = 'message-avatar';
++            avatar.textContent = '🤖';
++            
++            const dots = document.createElement('div');
++            dots.className = 'typing-dots';
++            dots.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
++            
++            typingDiv.appendChild(avatar);
++            typingDiv.appendChild(dots);
++            chatMessages.appendChild(typingDiv);
++            scrollToBottom();
++        }
++
++        function hideTypingIndicator() {
++            const typingIndicator = document.getElementById('typingIndicator');
++            if (typingIndicator) {
++                typingIndicator.remove();
++            }
++        }
++
++        function scrollToBottom() {
++            setTimeout(() => {
++                chatMessages.scrollTop = chatMessages.scrollHeight;
++            }, 100);
++        }
++
++        async function toggleRecording() {
++            if (!isRecording) {
++                try {
++                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
++                    mediaRecorder = new MediaRecorder(stream);
++                    
++                    mediaRecorder.ondataavailable = (event) => {
++                        audioChunks.push(event.data);
++                    };
++                    
++                    mediaRecorder.onstop = async () => {
++                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
++                        audioChunks = [];
++                        await transcribeAudio(audioBlob);
++                        stream.getTracks().forEach(track => track.stop());
++                    };
++                    
++                    mediaRecorder.start();
++                    isRecording = true;
++                    micBtn.classList.add('recording');
++                    micBtn.innerHTML = '⏹️';
++                    showNotification('Recording...', 'info');
++                } catch (error) {
++                    console.error('Microphone error:', error);
++                    showNotification('Nie można uzyskać dostępu do mikrofonu.', 'error');
++                }
++            } else {
++                mediaRecorder.stop();
++                isRecording = false;
++                micBtn.classList.remove('recording');
++                micBtn.innerHTML = '🎤';
++                showNotification('Recording stopped', 'success');
++            }
++        }
++
++        async function transcribeAudio(audioBlob) {
++            const formData = new FormData();
++            formData.append('file', audioBlob, 'recording.webm');
++            
++            try {
++                const response = await fetch('/api/stt/transcribe', {
++                    method: 'POST',
++                    body: formData
++                });
++                
++                if (response.ok) {
++                    const data = await response.json();
++                    if (data.text) {
++                        messageInput.value += data.text + ' ';
++                        messageInput.focus();
++                        showNotification('Audio transcribed', 'success');
++                    }
++                } else {
++                    messageInput.value += '[Nagrano audio - transkrypcja niedostępna] ';
++                    showNotification('Transcription unavailable', 'warning');
++                }
++            } catch (error) {
++                console.error('Transcription error:', error);
++                messageInput.value += '[Nagrano audio] ';
++                showNotification('Transcription failed', 'error');
++            }
++        }
++
++        function handleFileSelect(event) {
++            const file = event.target.files[0];
++            if (!file) return;
++            
++            currentFile = file;
++            
++            fileName.textContent = file.name;
++            fileSize.textContent = formatFileSize(file.size);
++            filePreview.classList.add('active');
++            showNotification('File selected', 'success');
++        }
++
++        function clearFile() {
++            currentFile = null;
++            fileInput.value = '';
++            filePreview.classList.remove('active');
++        }
++
++        function formatFileSize(bytes) {
++            if (bytes === 0) return '0 Bytes';
++            const k = 1024;
++            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
++            const i = Math.floor(Math.log(bytes) / Math.log(k));
++            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
++        }
++
++        async function copyToClipboard(text) {
++            try {
++                await navigator.clipboard.writeText(text);
++                showNotification('Copied to clipboard', 'success');
++            } catch (err) {
++                console.error('Failed to copy: ', err);
++                showNotification('Copy failed', 'error');
++            }
++        }
++
++        async function speakText(text) {
++            if (!settings.tts) {
++                showNotification('TTS is disabled', 'warning');
++                return;
++            }
++
++            try {
++                const response = await fetch('/api/tts/speak', {
++                    method: 'POST',
++                    headers: { 'Content-Type': 'application/json' },
++                    body: JSON.stringify({ 
++                        text: text,
++                        voice: settings.voice
++                    })
++                });
++                
++                if (response.ok) {
++                    const audioBlob = await response.blob();
++                    const audioUrl = URL.createObjectURL(audioBlob);
++                    const audio = new Audio(audioUrl);
++                    audio.play();
++                    showNotification('Playing audio', 'info');
++                } else {
++                    // Fallback to browser TTS
++                    if ('speechSynthesis' in window) {
++                        const utterance = new SpeechSynthesisUtterance(text);
++                        utterance.lang = 'pl-PL';
++                        speechSynthesis.speak(utterance);
++                        showNotification('Using browser TTS', 'info');
++                    }
++                }
++            } catch (error) {
++                console.error('TTS error:', error);
++                // Fallback to browser TTS
++                if ('speechSynthesis' in window) {
++                    const utterance = new SpeechSynthesisUtterance(text);
++                    utterance.lang = 'pl-PL';
++                    speechSynthesis.speak(utterance);
++                    showNotification('Using browser TTS', 'info');
++                }
++            }
++        }
++
++        function speakLastMessage() {
++            const lastAiMessage = allMessages.filter(m => m.role === 'ai').pop();
++            if (lastAiMessage) {
++                speakText(lastAiMessage.content);
++            } else {
++                showNotification('No AI message to speak', 'warning');
++            }
++        }
++
++        function showNotification(message, type = 'info') {
++            if (!settings.notifications) return;
++
++            const notification = document.createElement('div');
++            notification.className = `notification ${type}`;
++            notification.textContent = message;
++            
++            document.getElementById('notifications').appendChild(notification);
++            
++            setTimeout(() => {
++                notification.classList.add('show');
++            }, 100);
++            
++            setTimeout(() => {
++                notification.classList.remove('show');
++                setTimeout(() => {
++                    notification.remove();
++                }, 300);
++            }, 3000);
++        }
++
++        // Keyboard shortcuts
++        document.addEventListener('keydown', function(e) {
++            // Ctrl/Cmd + K for quick actions
++            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
++                e.preventDefault();
++                toggleQuickActions();
++            }
++            
++            // Ctrl/Cmd + , for settings
++            if ((e.ctrlKey || e.metaKey) && e.key === ',') {
++                e.preventDefault();
++                showSettings();
++            }
++            
++            // Ctrl/Cmd + E for endpoints
++            if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
++                e.preventDefault();
++                showEndpoints();
++            }
++            
++            // Escape to close modals
++            if (e.key === 'Escape') {
++                hideEndpoints();
++                hideSettings();
++                hideQuickActions();
++            }
++        });
++
++        // Auto-save on page unload
++        window.addEventListener('beforeunload', function() {
++            if (settings.autoSave && allMessages.length > 0) {
++                saveConversation();
++            }
++        });
++
++        // Periodic connection check
++        setInterval(checkConnection, 30000);
++
++        // Initialize demo data
++        setTimeout(() => {
++            if (allMessages.length === 0) {
++                addMessage('ai', 'Cześć! Jestem Mordzix AI - twoim profesjonalnym asystentem AI. Mam 144 endpointy API i mogę pomóc Ci w wielu zadaniach. Jak mogę Ci pomóc?', false);
++            }
++        }, 1000);
++    </script>
++</body>
++</html>
+EOF
+)

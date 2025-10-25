@@ -1,0 +1,11 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Jak się masz?"
+    }
+  ],
+  "user_id": "test_user",
+  "use_memory": false,
+  "auto_learn": false
+}

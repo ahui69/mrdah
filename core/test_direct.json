@@ -1,0 +1,6 @@
+{
+  "messages": [{"role": "user", "content": "Test"}],
+  "user_id": "test",
+  "use_memory": false,
+  "auto_learn": false
+}
