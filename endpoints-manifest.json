@@ -1,0 +1,4 @@
+{
+  "ok": true,
+  "note": "The full endpoints manifest is embedded inside index.html. This placeholder file exists so older paths that reference endpoints-manifest.json won't break during development. Remove if you want strict cleanup."
+}

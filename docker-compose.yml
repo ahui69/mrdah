@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    container_name: mordzix_api
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.production
+    environment:
+      - WORKSPACE=${WORKSPACE:-/workspace/mrd}
+    volumes:
+      - ./data:/workspace/mrd/data
+      - ./logs:/workspace/mrd/logs
+      - ./uploads:/workspace/mrd/out/uploads
+    restart: unless-stopped
