@@ -1,0 +1,11 @@
+{
+  "ips": [
+    "1.2.3.4"
+  ],
+  "ua": [
+    "curl",
+    "python-requests",
+    "scrapy",
+    "MJ12bot"
+  ]
+}

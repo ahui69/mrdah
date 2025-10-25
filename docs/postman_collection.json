@@ -1,0 +1,583 @@
+{
+  "info": {
+    "name": "Mordzix AI - Core API",
+    "_postman_id": "mordzix-ai-core",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /cache/stats",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/cache/stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "cache",
+            "stats"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /cache/clear",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/cache/clear",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "cache",
+            "clear"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /ratelimit/usage/{user_id}",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/ratelimit/usage/{user_id}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "ratelimit",
+            "usage",
+            "{user_id}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /ratelimit/config",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/ratelimit/config",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "ratelimit",
+            "config"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /process",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/process",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "process"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /submit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/submit",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "submit"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /metrics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/metrics",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "metrics"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /shutdown",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/shutdown",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "shutdown"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /solve",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/solve",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "solve"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /balance",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/balance",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "balance"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /reflect",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/reflect",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "reflect"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /reflection/summary",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/reflection/summary",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "reflection",
+            "summary"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /proactive/suggestions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/proactive/suggestions",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "proactive",
+            "suggestions"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /psychology/analyze",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/psychology/analyze",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "psychology",
+            "analyze"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /psychology/state/{user_id}",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/psychology/state/{user_id}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "psychology",
+            "state",
+            "{user_id}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /nlp/analyze",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/nlp/analyze",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "nlp",
+            "analyze"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /semantic/analyze",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/semantic/analyze",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "semantic",
+            "analyze"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /tools/list",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/tools/list",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "tools",
+            "list"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/status",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "status"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /upload",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/upload",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "upload"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /upload/base64",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/upload/base64",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "upload",
+            "base64"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /list",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/list",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "list"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /download",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/download",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "download"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /analyze",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/analyze",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "analyze"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /delete",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/delete",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "delete"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "TOKEN",
+      "value": "changeme"
+    }
+  ]
+}
