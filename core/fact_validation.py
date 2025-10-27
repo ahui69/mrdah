@@ -505,3 +505,7 @@ def validate_fact(fact: str, sources: List[str]) -> FactValidationResult:
 def validate_facts(facts_with_sources: List[Tuple[str, str]]) -> List[FactValidationResult]:
     """Shortcut: validate batch"""
     return get_fact_validator().validate_batch(facts_with_sources)
+
+
+# Alias dla kompatybilnoœci
+batch_validate_facts = validate_facts

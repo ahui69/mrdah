@@ -5,12 +5,13 @@ LLM Batch Processing Endpoint - API do wsadowego przetwarzania zapytań LLM
 Pozwala na wydajne wykonywanie wielu zapytań LLM jednocześnie.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, Body
-from typing import Dict, Any
+from fastapi import APIRouter, Depends, HTTPException, Body, Request
+from typing import List, Dict, Any, Optional
+import asyncio
 import time
 
-from core.auth import auth_dependency
-from batch_processing import (
+from core.auth import verify_token
+from core.batch_processing import (
     process_batch, 
     call_llm_batch, 
     get_batch_metrics, 
@@ -28,7 +29,7 @@ router = APIRouter(
 @router.post("/process", summary="Wykonuje wsadowe przetwarzanie zapytań LLM")
 async def batch_process_endpoint(
     data: Dict[str, Any] = Body(...),
-    _: bool = Depends(auth_dependency)
+    auth=Depends(verify_token)
 ):
     """
     Wykonuje wsadowe przetwarzanie wielu zapytań LLM jednocześnie
@@ -88,7 +89,7 @@ async def batch_process_endpoint(
 @router.post("/submit", summary="Dodaje pojedyncze zapytanie do wsadowego przetwarzania")
 async def batch_submit_endpoint(
     data: Dict[str, Any] = Body(...),
-    _: bool = Depends(auth_dependency)
+    auth=Depends(verify_token)
 ):
     """
     Dodaje pojedyncze zapytanie do wsadowego przetwarzania
@@ -139,7 +140,7 @@ async def batch_submit_endpoint(
 
 
 @router.get("/metrics", summary="Pobiera metryki procesora wsadowego")
-async def batch_metrics_endpoint(_: bool = Depends(auth_dependency)):
+async def batch_metrics_endpoint(auth=Depends(verify_token)):
     """
     Pobiera metryki i statystyki procesora wsadowego
     
@@ -162,7 +163,7 @@ async def batch_metrics_endpoint(_: bool = Depends(auth_dependency)):
 
 
 @router.post("/shutdown", summary="Zatrzymuje procesor wsadowy")
-async def batch_shutdown_endpoint(_: bool = Depends(auth_dependency)):
+async def batch_shutdown_endpoint(auth=Depends(verify_token)):
     """
     Zatrzymuje procesor wsadowy
     

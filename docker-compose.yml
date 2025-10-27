@@ -6,11 +6,11 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - .env.production
+      - .env
     environment:
-      - WORKSPACE=${WORKSPACE:-/workspace/mrd}
+      - WORKSPACE=${WORKSPACE:-/mrd}
     volumes:
-      - ./data:/workspace/mrd/data
-      - ./logs:/workspace/mrd/logs
-      - ./uploads:/workspace/mrd/out/uploads
+      - ./data:/mrd/data
+      - ./logs:/mrd/logs
+      - ./uploads:/mrd/out/uploads
     restart: unless-stopped

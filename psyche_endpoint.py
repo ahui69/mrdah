@@ -10,9 +10,9 @@ from pydantic import BaseModel
 from typing import Dict, Any, Optional, List
 import re
 
-from response_adapter import adapt
-from .memory_store import init_db, save_message, recent_messages, search_messages, get_state, update_state, apply_delta, journal
-from .security import _auth  # jeśli masz auth, zostawiamy import (nie jest wymagany do poniższych tras)
+from core.response_adapter import adapt
+from core.memory_store import init_db, save_message, recent_messages, search_messages, get_state, update_state, apply_delta, journal
+from core.auth import verify_token as _auth  # jeśli masz auth, zostawiamy import (nie jest wymagany do poniższych tras)
 
 router = APIRouter(prefix="/api/psyche", tags=["psyche"])
 

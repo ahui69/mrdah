@@ -5,7 +5,7 @@ research_endpoint.py - Web search endpoints (DuckDuckGo, Wikipedia, SERPAPI, arX
 PRAWDZIWY dostęp do internetu przez wiele źródeł.
 """
 
-from response_adapter import _wrap_for_ui, adapt
+from core.response_adapter import _wrap_for_ui, adapt
 from research_policy import filter_sources_tenant, filter_sources, is_allowed
 from fastapi import Request, APIRouter, HTTPException, Depends, Header
 from pydantic import BaseModel, Field
@@ -208,3 +208,4 @@ async def test_research(_auth: bool = Depends(verify_token)):
             "error": str(e),
             "test_passed": False
         })
+

@@ -12,7 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, Body
 from typing import Dict, Any
 
 from core.auth import auth_dependency
-from advanced_proactive import (
+from core.advanced_proactive import (
     get_proactive_suggestions, 
     inject_suggestions_to_prompt,
     suggestion_generator

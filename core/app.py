@@ -1,8 +1,8 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 MORDZIX AI - Unified Application
-Wersja 5.0.0 - Zunifikowana architektura z pełną automatyzacją
+Wersja 5.0.0 - Zunifikowana architektura z pe�n� automatyzacj�
 """
 
 import os
@@ -32,7 +32,7 @@ def _get_cors_origins() -> list[str]:
 app = FastAPI(
     title="Mordzix AI",
     version="5.0.0",
-    description="Zaawansowany system AI z pamięcią, uczeniem i pełną automatyzacją",
+    description="Zaawansowany system AI z pami�ci�, uczeniem i pe�n� automatyzacj�",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -112,33 +112,33 @@ except ImportError:
 
 try:
     import uvicorn  # type: ignore[import]
-except ImportError:  # pragma: no cover - fallback dla środowisk bez uvicorn
+except ImportError:  # pragma: no cover - fallback dla �rodowisk bez uvicorn
     uvicorn = None
 
-# ═══════════════════════════════════════════════════════════════════
-# KONFIGURACJA ŚRODOWISKA
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
+# KONFIGURACJA �RODOWISKA
+# ===================================================================
 BASE_DIR = Path(__file__).parent.absolute()
 os.environ.setdefault("AUTH_TOKEN", "ssjjMijaja6969")
 os.environ.setdefault("WORKSPACE", str(BASE_DIR))
 os.environ.setdefault("MEM_DB", str(BASE_DIR / "mem.db"))
 
-# Lista endpointów wymagających ręcznej akceptacji (spójna z frontendem)
+# Lista endpoint�w wymagaj�cych r�cznej akceptacji (sp�jna z frontendem)
 MANUAL_TOOL_ENDPOINTS: List[Dict[str, str]] = [
     {
         "name": "code_write",
         "endpoint": "POST /api/code/write",
-        "reason": "Zapisuje pliki w repozytorium i wymaga świadomego potwierdzenia."
+        "reason": "Zapisuje pliki w repozytorium i wymaga �wiadomego potwierdzenia."
     },
     {
         "name": "code_deps_install",
         "endpoint": "POST /api/code/deps/install",
-        "reason": "Instaluje zależności i modyfikuje środowisko uruchomieniowe."
+        "reason": "Instaluje zale�no�ci i modyfikuje �rodowisko uruchomieniowe."
     },
     {
         "name": "code_docker_build",
         "endpoint": "POST /api/code/docker/build",
-        "reason": "Buduje obraz Dockera – operacja zasobożerna."
+        "reason": "Buduje obraz Dockera � operacja zasobo�erna."
     },
     {
         "name": "code_docker_run",
@@ -148,28 +148,28 @@ MANUAL_TOOL_ENDPOINTS: List[Dict[str, str]] = [
     {
         "name": "code_git",
         "endpoint": "POST /api/code/git",
-        "reason": "Wysyła polecenia git zmieniające historię repozytorium."
+        "reason": "Wysy�a polecenia git zmieniaj�ce histori� repozytorium."
     },
     {
         "name": "code_init",
         "endpoint": "POST /api/code/init",
-        "reason": "Tworzy nową strukturę projektu na dysku i może nadpisać pliki."
+        "reason": "Tworzy now� struktur� projektu na dysku i mo�e nadpisa� pliki."
     },
 ]
 
 _AUTOMATION_SUMMARY_CACHE: Dict[str, Any] = {}
 _AUTOMATION_SUMMARY_TS: float = 0.0
 
-# Czy logować podczas importu (przy np. narzędziach CLI ustawiamy flagę by wyciszyć)
+# Czy logowa� podczas importu (przy np. narz�dziach CLI ustawiamy flag� by wyciszy�)
 _SUPPRESS_IMPORT_LOGS = os.environ.get("MORDZIX_SUPPRESS_STARTUP_LOGS") == "1"
 
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 # AUTOMATION SUMMARY HELPERS
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 
 
 def _load_fast_path_handlers() -> Dict[str, Any]:
-    """Zwróć listę nazw handlerów fast path (bezpośrednie regexy)."""
+    """Zwr�� list� nazw handler�w fast path (bezpo�rednie regexy)."""
 
     try:
         from core.intent_dispatcher import FAST_PATH_HANDLERS  # type: ignore[import]
@@ -180,7 +180,7 @@ def _load_fast_path_handlers() -> Dict[str, Any]:
             "handlers": handlers,
             "count": len(handlers)
         }
-    except Exception as exc:  # pragma: no cover - środowiska bez modułu
+    except Exception as exc:  # pragma: no cover - �rodowiska bez modu�u
         if not _SUPPRESS_IMPORT_LOGS:
             print(f"[WARN] Fast path handlers unavailable: {exc}")
         return {
@@ -192,7 +192,7 @@ def _load_fast_path_handlers() -> Dict[str, Any]:
 
 
 def _load_tool_registry() -> Dict[str, Any]:
-    """Zwróć listę narzędzi routera LLM."""
+    """Zwr�� list� narz�dzi routera LLM."""
 
     try:
         from core.tools_registry import get_all_tools  # type: ignore[import]
@@ -261,7 +261,7 @@ def _build_automation_summary() -> Dict[str, Any]:
 
 
 def get_automation_summary(refresh: bool = False) -> Dict[str, Any]:
-    """Pobierz (opcjonalnie odśwież) cache z podsumowaniem automatyzacji."""
+    """Pobierz (opcjonalnie od�wie�) cache z podsumowaniem automatyzacji."""
 
     global _AUTOMATION_SUMMARY_CACHE, _AUTOMATION_SUMMARY_TS
 
@@ -269,16 +269,16 @@ def get_automation_summary(refresh: bool = False) -> Dict[str, Any]:
         _AUTOMATION_SUMMARY_CACHE = _build_automation_summary()
         _AUTOMATION_SUMMARY_TS = _AUTOMATION_SUMMARY_CACHE.get("generated_at", time.time())
     else:
-        # Dołącz timestamp do cache (może być potrzebny przy monitoringu)
+        # Do��cz timestamp do cache (mo�e by� potrzebny przy monitoringu)
         _AUTOMATION_SUMMARY_CACHE["generated_at"] = _AUTOMATION_SUMMARY_TS
 
     return _AUTOMATION_SUMMARY_CACHE
 
-# Prometheus middleware korzysta z core.metrics (jeśli dostępne)
+# Prometheus middleware korzysta z core.metrics (je�li dost�pne)
 
-# ═══════════════════════════════════════════════════════════════════
-# FASTAPI APPLICATION (już zdefiniowana wyżej)
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
+# FASTAPI APPLICATION (ju� zdefiniowana wy�ej)
+# ===================================================================
 
 # CORS
 app.add_middleware(
@@ -312,335 +312,389 @@ if PROMETHEUS_AVAILABLE:
             duration = time.time() - start_time
             # record_request(method, endpoint, status_code, duration)  # Disabled
 
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 # INCLUDE ROUTERS - Wszystkie endpointy
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 
 if not _SUPPRESS_IMPORT_LOGS:
     print("\n" + "="*70)
-    print("MORDZIX AI - INICJALIZACJA ENDPOINTÓW")
+    print("MORDZIX AI - INICJALIZACJA ENDPOINT�W")
     print("="*70 + "\n")
 
-# 1. ASSISTANT (główny chat z AI)
+# 1. ASSISTANT (g��wny chat z AI)
 try:
     from core import assistant_endpoint
     app.include_router(assistant_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Assistant endpoint      /api/chat/assistant")
+        print("? Assistant endpoint      /api/chat/assistant")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Assistant endpoint: {e}")
+        print(f"? Assistant endpoint: {e}")
 
 # 2. PSYCHE (stan psychiczny AI)
 try:
     import psyche_endpoint
     app.include_router(psyche_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Psyche endpoint         /api/psyche/*")
+        print("? Psyche endpoint         /api/psyche/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Psyche endpoint: {e}")
+        print(f"? Psyche endpoint: {e}")
 
 # 3. PROGRAMISTA (wykonywanie kodu)
 try:
     import programista_endpoint
     app.include_router(programista_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Programista endpoint    /api/code/*")
+        print("? Programista endpoint    /api/code/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Programista endpoint: {e}")
+        print(f"? Programista endpoint: {e}")
 
-# 4. FILES (upload, analiza plików)
+# 4. FILES (upload, analiza plik�w)
 try:
     import files_endpoint
     app.include_router(files_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Files endpoint          /api/files/*")
+        print("? Files endpoint          /api/files/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Files endpoint: {e}")
+        print(f"? Files endpoint: {e}")
 
-# 5. TRAVEL (wyszukiwanie podróży)
+# 5. TRAVEL (wyszukiwanie podr�y)
 try:
     from core import travel_endpoint
     app.include_router(travel_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Travel endpoint         /api/travel/*")
+        print("? Travel endpoint         /api/travel/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Travel endpoint: {e}")
+        print(f"? Travel endpoint: {e}")
 
 # 6. ADMIN (statystyki, cache)
 try:
     import admin_endpoint
     app.include_router(admin_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Admin endpoint          /api/admin/*")
+        print("? Admin endpoint          /api/admin/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Admin endpoint: {e}")
+        print(f"? Admin endpoint: {e}")
 
-# 7. CAPTCHA (rozwiązywanie captcha)
+# 7. CAPTCHA (rozwi�zywanie captcha)
 try:
     import captcha_endpoint
     app.include_router(captcha_endpoint.router, prefix="/api/captcha", tags=["captcha"])
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Captcha endpoint        /api/captcha/*")
+        print("? Captcha endpoint        /api/captcha/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Captcha endpoint: {e}")
+        print(f"? Captcha endpoint: {e}")
 
 # 8. PROMETHEUS (metryki)
 try:
     import prometheus_endpoint
     app.include_router(prometheus_endpoint.router, prefix="/api/prometheus", tags=["monitoring"])
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Prometheus endpoint     /api/prometheus/*")
+        print("? Prometheus endpoint     /api/prometheus/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Prometheus endpoint: {e}")
+        print(f"? Prometheus endpoint: {e}")
 
 # 9. TTS (text-to-speech)
 try:
     import tts_endpoint
     app.include_router(tts_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ TTS endpoint            /api/tts/*")
+        print("? TTS endpoint            /api/tts/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ TTS endpoint: {e}")
+        print(f"? TTS endpoint: {e}")
 
 # 10. STT (speech-to-text)
 try:
     import stt_endpoint
     app.include_router(stt_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ STT endpoint            /api/stt/*")
+        print("? STT endpoint            /api/stt/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ STT endpoint: {e}")
+        print(f"? STT endpoint: {e}")
 
-# 11. WRITING (generowanie tekstów)
+# 11. WRITING (generowanie tekst�w)
 try:
     import writing_endpoint
     app.include_router(writing_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Writing endpoint        /api/writing/*")
+        print("? Writing endpoint        /api/writing/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Writing endpoint: {e}")
+        print(f"? Writing endpoint: {e}")
 
 # 12. SUGGESTIONS (proaktywne sugestie)
 try:
     import suggestions_endpoint
     app.include_router(suggestions_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Suggestions endpoint    /api/suggestions/*")
+        print("? Suggestions endpoint    /api/suggestions/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Suggestions endpoint: {e}")
+        print(f"? Suggestions endpoint: {e}")
 
 # 13. BATCH (przetwarzanie wsadowe)
 try:
     import batch_endpoint
     app.include_router(batch_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Batch endpoint          /api/batch/*")
+        print("? Batch endpoint          /api/batch/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Batch endpoint: {e}")
+        print(f"? Batch endpoint: {e}")
 
 # 14. RESEARCH (web search - DuckDuckGo, Wikipedia, SERPAPI)
 try:
     import research_endpoint
     app.include_router(research_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Research endpoint       /api/research/*")
+        print("? Research endpoint       /api/research/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Research endpoint: {e}")
+        print(f"? Research endpoint: {e}")
 
 # 15. COGNITIVE (cognitive engine - zaawansowane przetwarzanie)
 try:
     import cognitive_endpoint
     app.include_router(cognitive_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Cognitive endpoint      /api/cognitive/*")
+        print("? Cognitive endpoint      /api/cognitive/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Cognitive endpoint: {e}")
+        print(f"? Cognitive endpoint: {e}")
 
 # 16. MEMORY (hierarchical memory system)
 try:
     from core import memory_endpoint
     app.include_router(memory_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Memory endpoint         /api/memory/*")
+        print("? Memory endpoint         /api/memory/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Memory endpoint: {e}")
+        print(f"? Memory endpoint: {e}")
 
-# ═══════ 🔥 NOWE ZAAWANSOWANE ENDPOINTY 🔥 ═══════
+# ======= ?? NOWE ZAAWANSOWANE ENDPOINTY ?? =======
 
 # 17. AI FASHION (stylizacje, trendy, marki)
 try:
     import fashion_endpoint
     app.include_router(fashion_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ AI Fashion endpoint     /api/fashion/*")
+        print("? AI Fashion endpoint     /api/fashion/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ AI Fashion endpoint: {e}")
+        print(f"? AI Fashion endpoint: {e}")
 
 # 18. ML PREDICTIONS (95% accuracy suggestions)
 try:
     import ml_endpoint
     app.include_router(ml_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ ML Predictions endpoint /api/ml/*")
+        print("? ML Predictions endpoint /api/ml/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ ML Predictions endpoint: {e}")
+        print(f"? ML Predictions endpoint: {e}")
 
 # 19. FACT VALIDATION (multi-source fact checking)
 try:
     import fact_validation_endpoint
     app.include_router(fact_validation_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Fact Validation endpoint /api/facts/*")
+        print("? Fact Validation endpoint /api/facts/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Fact Validation endpoint: {e}")
+        print(f"? Fact Validation endpoint: {e}")
 
 # 20. VISION (image description, OCR)
 try:
     from core import vision_endpoint
     app.include_router(vision_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Vision endpoint         /api/vision/*")
+        print("? Vision endpoint         /api/vision/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Vision endpoint: {e}")
+        print(f"? Vision endpoint: {e}")
 
 # 21. VOICE (TTS, audio processing)
 try:
     from core import voice_endpoint
     app.include_router(voice_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Voice endpoint          /api/voice/*")
+        print("? Voice endpoint          /api/voice/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Voice endpoint: {e}")
+        print(f"? Voice endpoint: {e}")
 
-# 22. SELF-REFLECTION (dynamiczna rekurencja umysłowa)
+# 22. SELF-REFLECTION (dynamiczna rekurencja umys�owa)
 try:
     import reflection_endpoint
     app.include_router(reflection_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Self-Reflection endpoint /api/reflection/*")
+        print("? Self-Reflection endpoint /api/reflection/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Self-Reflection endpoint: {e}")
+        print(f"? Self-Reflection endpoint: {e}")
 
 # 23. AI HACKER (pentesting & security tools)
 try:
     import hacker_endpoint
     app.include_router(hacker_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ AI Hacker endpoint      /api/hacker/*")
+        print("? AI Hacker endpoint      /api/hacker/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ AI Hacker endpoint: {e}")
+        print(f"? AI Hacker endpoint: {e}")
 
-# 24. IMAGE (generowanie obrazów)
+# 24. IMAGE (generowanie obraz�w)
 try:
     from core import image_endpoint
     app.include_router(image_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Image endpoint          /api/image/*")
+        print("? Image endpoint          /api/image/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Image endpoint: {e}")
+        print(f"? Image endpoint: {e}")
 
-# 25. NLP (zaawansowana analiza językowa)
+# 25. NLP (zaawansowana analiza j�zykowa)
 try:
     import nlp_endpoint
     app.include_router(nlp_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ NLP endpoint            /api/nlp/*")
+        print("? NLP endpoint            /api/nlp/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ NLP endpoint: {e}")
+        print(f"? NLP endpoint: {e}")
 
 # 26. AUTOROUTER (frontend auto-routing)
 try:
     from core import frontend_autorouter
     app.include_router(frontend_autorouter.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ AutoRouter endpoint     /api/autoroute/*")
+        print("? AutoRouter endpoint     /api/autoroute/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ AutoRouter endpoint: {e}")
+        print(f"? AutoRouter endpoint: {e}")
 
-# 27. LANG (detekcja języka)
+# 27. LANG (detekcja j�zyka)
 try:
     from core import lang_endpoint
     app.include_router(lang_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Lang endpoint           /api/lang/*")
+        print("? Lang endpoint           /api/lang/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Lang endpoint: {e}")
+        print(f"? Lang endpoint: {e}")
 
-# 28. INTERNAL (wewnętrzne API)
+# 28. INTERNAL (wewn�trzne API)
 try:
     import internal_endpoint
     app.include_router(internal_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Internal endpoint       /api/internal/*")
+        print("? Internal endpoint       /api/internal/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Internal endpoint: {e}")
+        print(f"? Internal endpoint: {e}")
 
-# 29. INTERNAL UI (interfejs wewnętrzny)
+# 29. INTERNAL UI (interfejs wewn�trzny)
 try:
     import internal_ui
     app.include_router(internal_ui.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Internal UI endpoint    /api/internal/ui")
+        print("? Internal UI endpoint    /api/internal/ui")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Internal UI endpoint: {e}")
+        print(f"? Internal UI endpoint: {e}")
 
 # 30. HYBRID SEARCH (zaawansowane wyszukiwanie FTS5+Semantic+Fuzzy)
 try:
     from core import hybrid_search_endpoint
     app.include_router(hybrid_search_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
-        print("✓ Hybrid Search endpoint  /api/search/*")
+        print("? Hybrid Search endpoint  /api/search/*")
 except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
-        print(f"✗ Hybrid Search endpoint: {e}")
+        print(f"? Hybrid Search endpoint: {e}")
+
+# 
+#  PREMIUM ENDPOINTS (31-35)
+# 
+
+# 31. LICENSING & MONETIZATION
+try:
+    from endpoints import licensing_endpoint
+    app.include_router(licensing_endpoint.router)
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(" Licensing endpoint /api/license/*")
+except Exception as e:
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(f" Licensing: {e}")
+
+# 32. WHITE LABEL
+try:
+    from endpoints import white_label_endpoint
+    app.include_router(white_label_endpoint.router)
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(" White Label endpoint /api/whitelabel/*")
+except Exception as e:
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(f" White Label: {e}")
+
+# 33. AI MARKETPLACE
+try:
+    from endpoints import ai_marketplace_endpoint
+    app.include_router(ai_marketplace_endpoint.router)
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(" AI Marketplace /api/marketplace/*")
+except Exception as e:
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(f" AI Marketplace: {e}")
+
+# 34. AI TRAINING
+try:
+    from endpoints import ai_training_endpoint
+    app.include_router(ai_training_endpoint.router)
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(" AI Training Platform /api/training/*")
+except Exception as e:
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(f" AI Training: {e}")
+
+# 35. ANALYTICS
+try:
+    from endpoints import analytics_dashboard_endpoint
+    app.include_router(analytics_dashboard_endpoint.router)
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(" Analytics Dashboard /api/analytics/*")
+except Exception as e:
+    if not _SUPPRESS_IMPORT_LOGS:
+        print(f" Analytics: {e}")
 
 if not _SUPPRESS_IMPORT_LOGS:
     print("\n" + "="*70)
-    print("🔥 WSZYSTKIE ENDPOINTY ZAŁADOWANE (30 TOTAL) 🔥")
+    print("?? WSZYSTKIE ENDPOINTY ZA�ADOWANE (35 TOTAL) ??")
     print("="*70 + "\n")
-    print("✅ AI Fashion Manager")
-    print("✅ Advanced LLM Integration")
-    print("✅ ML Proactive Suggestions (95% accuracy)")
-    print("✅ Multi-Source Fact Validation")
-    print("✅ Context Awareness Engine")
-    print("✅ Vision Processing (OCR + Image Analysis)")
-    print("✅ Voice Processing (TTS Multi-Provider)")
-    print("✅ Self-Reflection Engine (5 poziomów głębokości)")
-    print("✅ AI Hacker Toolkit (Port Scan, SQLi, Recon)")
+    print("? AI Fashion Manager")
+    print("? Advanced LLM Integration")
+    print("? ML Proactive Suggestions (95% accuracy)")
+    print("? Multi-Source Fact Validation")
+    print("? Context Awareness Engine")
+    print("? Vision Processing (OCR + Image Analysis)")
+    print("? Voice Processing (TTS Multi-Provider)")
+    print("? Self-Reflection Engine (5 poziom�w g��boko�ci)")
+    print("? AI Hacker Toolkit (Port Scan, SQLi, Recon)")
     print("\n" + "="*70 + "\n")
 
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 # BASIC ROUTES
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 
 @app.get("/api")
 @app.get("/status")
@@ -681,7 +735,7 @@ async def health():
 
 @app.get("/api/endpoints/list")
 async def list_endpoints():
-    """Lista wszystkich endpointów API"""
+    """Lista wszystkich endpoint�w API"""
     endpoints = []
     seen = set()
     
@@ -706,22 +760,22 @@ async def list_endpoints():
 
 @app.get("/api/automation/status")
 async def automation_status():
-    """Podsumowanie automatycznych narzędzi i fast path."""
+    """Podsumowanie automatycznych narz�dzi i fast path."""
 
     summary = get_automation_summary()
     return {"ok": True, **summary}
 
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 # FRONTEND ROUTES - ANGULAR APP
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 
-# POPRAWKA: BASE_DIR z config.py może być błędne gdy importuje z core/
-# Używamy Path(__file__).parent.parent.resolve() aby dostać /home/ubuntu/mrd
+# POPRAWKA: BASE_DIR z config.py mo�e by� b��dne gdy importuje z core/
+# U�ywamy Path(__file__).parent.parent.resolve() aby dosta� /home/ubuntu/mrd
 from pathlib import Path as _Path
 _APP_ROOT = _Path(__file__).parent.parent.resolve()
 FRONTEND_DIST = _APP_ROOT / "frontend" / "dist" / "mordzix-ai"
 
-# Serwowanie statycznych plików z Angular dist/ (tylko jeśli istnieją)
+# Serwowanie statycznych plik�w z Angular dist/ (tylko je�li istniej�)
 assets_dir = FRONTEND_DIST / "assets"
 if assets_dir.exists():
     app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
@@ -731,11 +785,11 @@ print("[INIT] Registering serve_frontend for routes: /, /app, /chat")
 @app.get("/app", response_class=HTMLResponse)
 @app.get("/chat", response_class=HTMLResponse)
 async def serve_frontend():
-    """Główny interfejs czatu - Angular SPA lub WebUI"""
+    """G��wny interfejs czatu - Angular SPA lub WebUI"""
     print("[REQUEST] serve_frontend() called!")
     print(f"[DEBUG] _APP_ROOT={_APP_ROOT}")
     print(f"[DEBUG] FRONTEND_DIST={FRONTEND_DIST}")
-    # 1. Próbujemy załadować Angular dist
+    # 1. Pr�bujemy za�adowa� Angular dist
     angular_index = FRONTEND_DIST / "index.html"
     print(f"[DEBUG] Angular: {angular_index} exists={angular_index.exists()}")
     if angular_index.exists():
@@ -746,7 +800,7 @@ async def serve_frontend():
     mobile_index = _APP_ROOT / "frontend" / "dist" / "mordzix-ai" / "index.html"
     print(f"[DEBUG] Mobile: {mobile_index} exists={mobile_index.exists()}")
     if mobile_index.exists():
-        print(f"[INFO] ✅ Serving Mobile Chat from {mobile_index}")
+        print(f"[INFO] ? Serving Mobile Chat from {mobile_index}")
         content = mobile_index.read_text(encoding="utf-8")
         print(f"[DEBUG] Mobile content length: {len(content)}")
         return HTMLResponse(content=content)
@@ -759,7 +813,7 @@ async def serve_frontend():
     # Brak frontendu
     return HTMLResponse(
         content="""
-        <h1>�🔥🔥 TESTING - THIS IS NEW CODE 🔥🔥🔥</h1>
+        <h1>????? TESTING - THIS IS NEW CODE ??????</h1>
         <p>If you see this, the code is loaded correctly!</p>
         <p>Run: <code>cd frontend && npm install && npm run build:prod</code></p>
         <p>Or use API directly: <a href="/docs">/docs</a></p>
@@ -767,15 +821,15 @@ async def serve_frontend():
         status_code=404
     )
 
-# Catch-all dla Angular routing (musi być na końcu!)
+`n# `n# WebUI - MUSI BY� PRZED catch-all!`n# `nwebui_dir = BASE_DIR.parent / "webui"`nif webui_dir.exists():`n    app.mount("/webui", StaticFiles(directory=str(webui_dir)), name="webui")`n    print(" WebUI mounted at /webui/")`n    `n    @app.get("/webui/", include_in_schema=False)`n    async def webui_index():`n        return FileResponse(str(webui_dir / "index.html"))`nelse:`n    print(f" WebUI not found: {webui_dir}")`n`n# Catch-all dla Angular routing (musi by� na ko�cu!)
 @app.get("/{full_path:path}", response_class=HTMLResponse, include_in_schema=False)
 async def angular_catch_all(full_path: str):
-    """Przekieruj wszystkie nieznane ścieżki do Angular SPA (dla routingu)"""
-    # Ignoruj ścieżki API
+    """Przekieruj wszystkie nieznane �cie�ki do Angular SPA (dla routingu)"""
+    # Ignoruj �cie�ki API
     if full_path.startswith("api/") or full_path.startswith("health"):
         raise HTTPException(status_code=404, detail="API endpoint not found")
     
-    # Zwróć Angular index.html (SPA obsłuży routing)
+    # Zwr�� Angular index.html (SPA obs�u�y routing)
     angular_index = FRONTEND_DIST / "index.html"
     if angular_index.exists():
         return HTMLResponse(content=angular_index.read_text(encoding="utf-8"))
@@ -833,12 +887,12 @@ if (BASE_DIR / "icons").exists():
     app.mount("/icons", StaticFiles(directory=str(BASE_DIR / "icons")), name="icons")
 
 # WebUI - Alternatywny frontend (vanilla JS PWA)
-webui_dir = BASE_DIR.parent / "webui"  # Katalog główny projektu
+webui_dir = BASE_DIR.parent / "webui"  # Katalog g��wny projektu
 if webui_dir.exists():
-    # Mount bez html=True żeby nie konfliktowal z routing
+    # Mount bez html=True �eby nie konfliktowal z routing
     app.mount("/webui", StaticFiles(directory=str(webui_dir)),
               name="webui")
-    print("✓ WebUI Frontend mounted at /webui/")
+    print("? WebUI Frontend mounted at /webui/")
     
     # Handler dla /webui/ -> index.html
     @app.get("/webui/", include_in_schema=False)
@@ -846,12 +900,12 @@ if webui_dir.exists():
         return FileResponse(str(webui_dir / "index.html"))
         
 else:
-    print(f"✗ WebUI directory not found at {webui_dir}")
+    print(f"? WebUI directory not found at {webui_dir}")
 
 
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 # STARTUP & SHUTDOWN
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 
 
 @app.on_event("startup")
@@ -861,13 +915,13 @@ async def startup_event():
     print("MORDZIX AI - STARTED")
     print("="*70)
     print("\n[INFO] Funkcje:")
-    print("  ✓ Auto STM→LTM transfer")
-    print("  ✓ Auto-learning (Google + scraping)")
-    print("  ✓ Context injection (LTM w prompt)")
-    print("  ✓ Psyche system (nastrój AI)")
-    print("  ✓ Travel (hotele/restauracje/atrakcje)")
-    print("  ✓ Code executor (shell/git/docker)")
-    print("  ✓ TTS/STT (ElevenLabs + Whisper)")
+    print("  ? Auto STM�LTM transfer")
+    print("  ? Auto-learning (Google + scraping)")
+    print("  ? Context injection (LTM w prompt)")
+    print("  ? Psyche system (nastr�j AI)")
+    print("  ? Travel (hotele/restauracje/atrakcje)")
+    print("  ? Code executor (shell/git/docker)")
+    print("  ? TTS/STT (ElevenLabs + Whisper)")
     print("\n[INFO] Endpoints:")
     print("  [API] Chat:      POST /api/chat/assistant")
     print("  [API] Stream:    POST /api/chat/assistant/stream")
@@ -889,35 +943,35 @@ async def startup_event():
     automatic_total = summary.get("totals", {}).get("automatic", 0)
 
     print("[INFO] Automatyzacja:")
-    print(f"  ✓ Fast path handlers : {fast_count}")
-    print(f"  ✓ Router tools       : {tool_count}")
-    print(f"  ✓ Manual approvals   : {manual_count}")
-    print(f"  ✓ Auto executables   : {automatic_total}")
+    print(f"  ? Fast path handlers : {fast_count}")
+    print(f"  ? Router tools       : {tool_count}")
+    print(f"  ? Manual approvals   : {manual_count}")
+    print(f"  ? Auto executables   : {automatic_total}")
     
-    # Inicjalizacja bazy danych i pamięci
+    # Inicjalizacja bazy danych i pami�ci
     try:
         from core.memory import _init_db, load_ltm_to_memory
         _init_db()
         load_ltm_to_memory()
-        print("[OK] Pamięć LTM załadowana")
+        print("[OK] Pami�� LTM za�adowana")
     except Exception as e:
-        print(f"[WARN] Błąd inicjalizacji pamięci: {e}")
+        print(f"[WARN] B��d inicjalizacji pami�ci: {e}")
 
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    """Cleanup przy wyłączeniu"""
+    """Cleanup przy wy��czeniu"""
     print("\n[INFO] Shutting down Mordzix AI...")
 
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 # MAIN - Uruchomienie serwera
-# ═══════════════════════════════════════════════════════════════════
+# ===================================================================
 
 if __name__ == "__main__":
     import argparse
 
     if uvicorn is None:
-        raise RuntimeError("Uvicorn nie jest zainstalowany. Uruchom 'pip install uvicorn' w środowisku aplikacji.")
+        raise RuntimeError("Uvicorn nie jest zainstalowany. Uruchom 'pip install uvicorn' w �rodowisku aplikacji.")
     
     parser = argparse.ArgumentParser(description='Mordzix AI Server')
     parser.add_argument('-p', '--port', type=int, default=8080, help='Port (default: 8080)')
@@ -941,4 +995,5 @@ if __name__ == "__main__":
 @app.get('/metrics', include_in_schema=False)
 def _metrics():
     return metrics_endpoint()
+
 

@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 from pydantic import BaseModel
 from typing import Optional
-from tts_elevenlabs import text_to_speech, POLISH_VOICES
+from core.tts_elevenlabs import text_to_speech, POLISH_VOICES
 
 router = APIRouter(prefix="/api/tts", tags=["tts"])
 

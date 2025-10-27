@@ -893,3 +893,4 @@ def get_user_comprehensive_profile(user_id: str) -> Dict[str, Any]:
 
 # Alias dla kompatybilności wstecznej
 hierarchical_memory_manager = get_hierarchical_memory_system()
+get_hierarchical_memory = get_hierarchical_memory_system

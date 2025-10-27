@@ -5,7 +5,7 @@ files_endpoint.py - Kompletny system obsługi plików
 Obsługuje: PDF, images (JPG, PNG), ZIP, TXT, PY, JSON, MD, MP4, oraz więcej
 """
 
-from core.response_adapter import adapt
+from core.auth import auth_dependency
 from fastapi import APIRouter, Request, HTTPException, Depends, UploadFile, File
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
@@ -17,7 +17,7 @@ def _wrap_for_ui(payload):
     try:
         return adapt(payload)
     except Exception:
-        return _wrap_for_ui({"text": str(payload), "sources": []})
+        return {"text": str(payload), "sources": []}
 
 router = APIRouter(prefix="/api/files")
 
@@ -82,14 +82,14 @@ def analyze_image(file_path: str) -> Dict[str, Any]:
     try:
         from PIL import Image
         img = Image.open(file_path)
-        return _wrap_for_ui({
+        return {
             "dimensions": {"width": img.width, "height": img.height},
             "format": img.format,
             "mode": img.mode,
             "size_bytes": os.path.getsize(file_path)
-        })
+        }
     except Exception as e:
-        return _wrap_for_ui({"error": str(e)})
+        return {"error": str(e)}
 
 def extract_from_zip(file_path: str) -> List[str]:
     """List contents of ZIP file"""
@@ -110,11 +110,11 @@ def get_video_info(file_path: str) -> Dict[str, Any]:
         )
         if result.returncode == 0:
             return json.loads(result.stdout)
-        return _wrap_for_ui({"error": "ffprobe failed"})
+        return {"error": "ffprobe failed"}
     except FileNotFoundError:
-        return _wrap_for_ui({"error": "ffprobe not installed"})
+        return {"error": "ffprobe not installed"}
     except Exception as e:
-        return _wrap_for_ui({"error": str(e)})
+        return {"error": str(e)}
 
 def process_file(file_path: str, filename: str) -> Dict[str, Any]:
     """Process file based on type and extract information"""
@@ -170,12 +170,12 @@ def process_file(file_path: str, filename: str) -> Dict[str, Any]:
     else:
         result["type"] = "other"
     
-    return _wrap_for_ui(result)
+    return result
 
 # ===== ENDPOINTS =====
 
 @router.post("/upload")
-async def upload_file(file: UploadFile = File(...), _=Depends(_auth)):
+async def upload_file(file: UploadFile = File(...), _=Depends(auth_dependency)):
     """
     📤 Upload file (multipart/form-data)
     
@@ -214,17 +214,17 @@ async def upload_file(file: UploadFile = File(...), _=Depends(_auth)):
     except:
         pass
     
-    return _wrap_for_ui({
+    return {
         "ok": True,
         "file_id": file_id,
         "filename": file.filename,
         "size": len(contents),
         "path": file_path,
         "analysis": analysis
-    })
+    }
 
 @router.post("/upload/base64")
-async def upload_base64(body: FileUploadBase64, _=Depends(_auth)):
+async def upload_base64(body: FileUploadBase64, _=Depends(auth_dependency)):
     """
     📤 Upload file (base64 encoded)
     
@@ -253,19 +253,19 @@ async def upload_base64(body: FileUploadBase64, _=Depends(_auth)):
         # Process
         analysis = process_file(file_path, body.filename)
         
-        return _wrap_for_ui({
+        return {
             "ok": True,
             "file_id": file_id,
             "filename": body.filename,
             "size": len(contents),
             "analysis": analysis
-        })
+        }
         
     except Exception as e:
         raise HTTPException(500, f"Upload failed: {str(e)}")
 
 @router.get("/list")
-async def list_files(_=Depends(_auth)):
+async def list_files(_=Depends(auth_dependency)):
     """
     📋 List all uploaded files
     """
@@ -323,10 +323,10 @@ async def list_files(_=Depends(_auth)):
     except Exception:
         pass
 
-    return _wrap_for_ui({"ok": True, "files": norm, "count": len(norm)})
+    return {"ok": True, "files": norm, "count": len(norm)}
 
 @router.get("/download")
-async def download_file(file_id: str, _=Depends(_auth)):
+async def download_file(file_id: str, _=Depends(auth_dependency)):
     """
     📥 Download file by ID
     """
@@ -344,7 +344,7 @@ async def download_file(file_id: str, _=Depends(_auth)):
     raise HTTPException(404, "File not found")
 
 @router.post("/analyze")
-async def analyze_file(body: FileAnalyzeRequest, _=Depends(_auth)):
+async def analyze_file(body: FileAnalyzeRequest, _=Depends(auth_dependency)):
     """
     🔍 Analyze uploaded file
     
@@ -352,7 +352,7 @@ async def analyze_file(body: FileAnalyzeRequest, _=Depends(_auth)):
     """
     # Tryb testowy – szybka analiza bez LLM
     if os.getenv("FAST_TEST") == "1" or os.getenv("TEST_MODE") == "1":
-        return _wrap_for_ui({"ok": True, "analysis": {"filename": body.file_id, "type": "text", "extracted_text": "test"}})
+        return {"ok": True, "analysis": {"filename": body.file_id, "type": "text", "extracted_text": "test"}}
     # Find file
     for fname in os.listdir(UPLOAD_DIR):
         if fname.startswith(body.file_id):
@@ -373,12 +373,12 @@ async def analyze_file(body: FileAnalyzeRequest, _=Depends(_auth)):
                     except:
                         pass
                 
-                return _wrap_for_ui({"ok": True, "analysis": analysis})
+                return {"ok": True, "analysis": analysis}
     
     raise HTTPException(404, "File not found")
 
 @router.post("/delete")
-async def delete_file(body: FileDeleteRequest, _=Depends(_auth)):
+async def delete_file(body: FileDeleteRequest, _=Depends(auth_dependency)):
     """
     🗑️ Delete file
     """
@@ -388,12 +388,12 @@ async def delete_file(body: FileDeleteRequest, _=Depends(_auth)):
             file_path = os.path.join(UPLOAD_DIR, fname)
             if os.path.exists(file_path):
                 os.remove(file_path)
-                return _wrap_for_ui({"ok": True, "deleted": body.file_id})
+                return {"ok": True, "deleted": body.file_id}
     
     raise HTTPException(404, "File not found")
 
 @router.get("/stats")
-async def files_stats(_=Depends(_auth)):
+async def files_stats(_=Depends(auth_dependency)):
     """
     📊 Files statistics
     """
@@ -411,16 +411,16 @@ async def files_stats(_=Depends(_auth)):
             ext = os.path.splitext(fname)[1].lower()
             by_type[ext] = by_type.get(ext, 0) + 1
     
-    return _wrap_for_ui({
+    return {
         "ok": True,
         "total_files": total_files,
         "total_size_mb": round(total_size / 1024 / 1024, 2),
         "upload_dir": UPLOAD_DIR,
         "by_extension": by_type
-    })
+    }
 
 @router.post("/batch/analyze")
-async def batch_analyze(file_ids: List[str], _=Depends(_auth)):
+async def batch_analyze(file_ids: List[str], _=Depends(auth_dependency)):
     """
     🔍 Batch analyze multiple files
     """
@@ -434,5 +434,5 @@ async def batch_analyze(file_ids: List[str], _=Depends(_auth)):
                     results.append({"file_id": file_id, "analysis": analysis})
                     break
     
-    return _wrap_for_ui({"ok": True, "results": results, "count": len(results)})
+    return {"ok": True, "results": results, "count": len(results)}
 

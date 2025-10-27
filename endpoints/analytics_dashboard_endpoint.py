@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from typing import Optional, Dict, List
 from datetime import datetime, timedelta
 
-router = APIRouter(prefix="/api/analytics", tags=["📊 Analytics"])
+router = APIRouter(prefix="/api/analytics", tags=["?? Analytics"])
 
 # ============================================================================
 # ANALYTICS ENDPOINTS
@@ -19,7 +19,7 @@ router = APIRouter(prefix="/api/analytics", tags=["📊 Analytics"])
 @router.get("/overview")
 async def get_analytics_overview():
     """
-    📈 Analytics overview dashboard
+    ?? Analytics overview dashboard
     """
     return {
         "period": "last_30_days",
@@ -43,7 +43,7 @@ async def get_analytics_overview():
 @router.get("/real-time")
 async def get_realtime_metrics():
     """
-    ⚡ Real-time metrics
+    ? Real-time metrics
     """
     return {
         "timestamp": datetime.now().isoformat(),
@@ -67,7 +67,7 @@ async def get_realtime_metrics():
 @router.get("/users/behavior")
 async def analyze_user_behavior():
     """
-    👤 User behavior analytics
+    ?? User behavior analytics
     """
     return {
         "user_journey": {
@@ -97,7 +97,7 @@ async def analyze_user_behavior():
 @router.get("/revenue/forecast")
 async def revenue_forecast():
     """
-    💰 AI-powered revenue forecasting
+    ?? AI-powered revenue forecasting
     """
     return {
         "current_mrr": 89_234.50,
@@ -118,7 +118,7 @@ async def revenue_forecast():
 @router.get("/anomalies")
 async def detect_anomalies():
     """
-    🚨 AI anomaly detection
+    ?? AI anomaly detection
     """
     return {
         "anomalies_detected": 3,
@@ -153,7 +153,7 @@ async def detect_anomalies():
 @router.get("/predictions/churn")
 async def predict_churn():
     """
-    🔮 Churn prediction ML model
+    ?? Churn prediction ML model
     """
     return {
         "high_risk_users": [
@@ -179,7 +179,7 @@ async def predict_churn():
 @router.get("/ab-tests")
 async def get_ab_test_results():
     """
-    🧪 A/B test results
+    ?? A/B test results
     """
     return {
         "active_tests": [
@@ -202,7 +202,7 @@ async def export_analytics(
     date_to: Optional[str] = None
 ):
     """
-    📥 Export analytics data
+    ?? Export analytics data
     
     **Formats**: CSV, Excel, JSON, PDF
     """
