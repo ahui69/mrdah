@@ -5,7 +5,7 @@ files_endpoint.py - Kompletny system obsługi plików
 Obsługuje: PDF, images (JPG, PNG), ZIP, TXT, PY, JSON, MD, MP4, oraz więcej
 """
 
-from response_adapter import adapt
+from core.response_adapter import adapt
 from fastapi import APIRouter, Request, HTTPException, Depends, UploadFile, File
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
@@ -435,3 +435,4 @@ async def batch_analyze(file_ids: List[str], _=Depends(_auth)):
                     break
     
     return _wrap_for_ui({"ok": True, "results": results, "count": len(results)})
+

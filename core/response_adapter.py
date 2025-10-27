@@ -51,3 +51,10 @@ def adapt(obj: Any, *, text_field_candidates: Optional[List[str]] = None, source
         return {"text": text_val, "sources": sources}
     # default
     return {"text": str(obj), "sources": []}
+
+
+def _wrap_for_ui(payload):
+    try:
+        return adapt(payload)
+    except Exception as e:
+        return {'text': f'Error: {str(e)}', 'sources': []}
