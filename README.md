@@ -3,7 +3,7 @@
 **Wersja:** 5.0.0  
 **Status:** Production Ready  
 **Stack:** FastAPI + React + TypeScript + SQLite + Redis  
-**Endpointy:** 177 API endpoints across 25 routers
+**Endpointy:** 124 API routes across 28 routers (35 endpoint files)
 
 ## 📋 Spis Treści
 
@@ -368,27 +368,40 @@ curl -H "Authorization: Bearer ssjjMijaja6969" http://localhost:8080/api/chat/as
 curl "http://localhost:8080/api/admin/stats?auth=ssjjMijaja6969"
 ```
 
-### 📡 Endpoints Overview (177 total)
+### 📡 Endpoints Overview (124 API routes)
 
-**25 Routers:**
-- `/api/chat/*` - Main AI assistant (streaming, completions)
-- `/api/memory/*` - Memory system (STM/LTM/facts)
-- `/api/cognitive/*` - Cognitive engine (reflection, planning)
-- `/api/research/*` - Web search (DuckDuckGo, Wikipedia, arXiv)
-- `/api/batch/*` - Batch processing queue
-- `/api/psyche/*` - AI psychological state
-- `/api/suggestions/*` - Proactive suggestions
-- `/api/nlp/*` - NLP processing (spaCy, NER, sentiment)
-- `/api/code/*` - Code execution (shell, git, docker)
-- `/api/files/*` - File upload/analysis (PDF, OCR)
-- `/api/writing/*` - Creative writing generator
-- `/api/travel/*` - Travel search (hotels, restaurants)
-- `/api/tts/*` - Text-to-speech
-- `/api/stt/*` - Speech-to-text
-- `/api/admin/*` - Admin panel (stats, cache)
-- `/api/internal/*` - Internal UI manifest
-- `/api/captcha/*` - Captcha solver
-- `/api/prometheus/*` - Metrics endpoint
+**28 Active Routers (35 endpoint files total):**
+- `/api/chat/*` - Main AI assistant (streaming, completions) - 3 routes
+- `/api/code/*` - Code execution (shell, git, docker) - 16 routes
+- `/api/cognitive/*` - Cognitive engine (reflection, planning) - 11 routes
+- `/api/writing/*` - Creative writing generator - 11 routes
+- `/api/files/*` - File upload/analysis (PDF, OCR) - 8 routes
+- `/api/fashion/*` - AI Fashion Manager - 7 routes
+- `/api/hacker/*` - Pentesting toolkit (port scan, SQLi, recon) - 6 routes
+- `/api/travel/*` - Travel search (hotels, restaurants) - 6 routes
+- `/api/batch/*` - Batch processing queue - 4 routes
+- `/api/memory/*` - Memory system (STM/LTM/facts) - 5 routes
+- `/api/ml/*` - ML Predictions - 5 routes
+- `/api/research/*` - Web search (DuckDuckGo, Wikipedia, arXiv) - 4 routes
+- `/api/psyche/*` - AI psychological state - 4 routes
+- `/api/facts/*` - Fact validation - 6 routes
+- `/api/admin/*` - Admin panel (stats, cache) - 3 routes
+- `/api/suggestions/*` - Proactive suggestions - 4 routes
+- `/api/prometheus/*` - Metrics endpoint - 3 routes
+- `/api/tts/*` - Text-to-speech - 2 routes
+- `/api/stt/*` - Speech-to-text - 2 routes
+- `/api/vision/*` - Vision processing (OCR + Image Analysis) - 2 routes
+- `/api/voice/*` - Voice Processing (TTS Multi-Provider) - 2 routes
+- `/api/captcha/*` - Captcha solver - 2 routes
+- `/api/nlp/*` - NLP processing (spaCy, NER, sentiment) - 1 route
+- `/api/internal/*` - Internal UI manifest - 1 route
+- `/api/image/*` - Image processing - 1 route
+- `/api/lang/*` - Language detection - 1 route
+- `/` - Frontend (Persistent Chat UI) - 1 route
+- `/health`, `/status`, `/app`, `/chat` - Health/status checks - 4 routes
+
+**Working Endpoints:** 27 unique (✅ All loaded)  
+**Broken:** 1 (Self-Reflection - import error)
 
 ### 🎯 Key Endpoints
 
@@ -618,7 +631,7 @@ curl "http://localhost:8080/api/admin/stats?auth=ssjjMijaja6969"
 Visit: **http://localhost:8080/docs** (Swagger UI)  
 Or: **http://localhost:8080/redoc** (ReDoc)
 
-**GET** `/api/endpoints/list` - List all 177 endpoints
+**GET** `/api/endpoints/list` - List all 124 API routes (28 routers)
 
 ---
 
@@ -813,15 +826,19 @@ sqlite3 mem.db "INSERT INTO facts(id,text,tags,conf,created) VALUES('test1','tes
 ```bash
 # Check which routers are mounted
 curl http://localhost:8080/api/endpoints/list | python -m json.tool | grep -c '"path"'
-# Should show: 177
+# Should show: 124 (updated Oct 2025)
 
 # Check startup logs
 python app.py 2>&1 | grep "✓"
-# Should show 17-25 lines like: "✓ Assistant endpoint /api/chat/*"
+# Should show 28 lines like: "✓ Assistant endpoint /api/chat/*"
 
 # Verify app.py imports all routers
-grep "app.include_router" app.py | wc -l
-# Should show: 17+ (root routers) + 8 (core routers) = 25 total
+grep "app.include_router" core/app.py | wc -l
+# Should show: 28 total routers
+
+# Test API status
+curl http://localhost:8080/openapi.json -s | python3 -c "import sys,json; print(f'Total paths: {len(json.load(sys.stdin)[\"paths\"])}')"
+# Should show: Total paths: 124
 ```
 
 ### Cognitive/Memory Endpoints 404

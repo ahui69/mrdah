@@ -5,7 +5,7 @@ files_endpoint.py - Kompletny system obsługi plików
 Obsługuje: PDF, images (JPG, PNG), ZIP, TXT, PY, JSON, MD, MP4, oraz więcej
 """
 
-from .response_adapter import adapt
+from response_adapter import adapt
 from fastapi import APIRouter, Request, HTTPException, Depends, UploadFile, File
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
@@ -83,11 +83,11 @@ def analyze_image(file_path: str) -> Dict[str, Any]:
         from PIL import Image
         img = Image.open(file_path)
         return _wrap_for_ui({
-            "dimensions": {"width": img.width, "height": img.height}),
+            "dimensions": {"width": img.width, "height": img.height},
             "format": img.format,
             "mode": img.mode,
             "size_bytes": os.path.getsize(file_path)
-        }
+        })
     except Exception as e:
         return _wrap_for_ui({"error": str(e)})
 
@@ -352,7 +352,7 @@ async def analyze_file(body: FileAnalyzeRequest, _=Depends(_auth)):
     """
     # Tryb testowy – szybka analiza bez LLM
     if os.getenv("FAST_TEST") == "1" or os.getenv("TEST_MODE") == "1":
-        return _wrap_for_ui({"ok": True, "analysis": {"filename": body.file_id, "type": "text", "extracted_text": "test"})}
+        return _wrap_for_ui({"ok": True, "analysis": {"filename": body.file_id, "type": "text", "extracted_text": "test"}})
     # Find file
     for fname in os.listdir(UPLOAD_DIR):
         if fname.startswith(body.file_id):

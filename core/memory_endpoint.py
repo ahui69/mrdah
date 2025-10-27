@@ -51,6 +51,56 @@ async def import_(req: Request, body: ImportIn):
     n = memory_import(ten, body.items or [])
     return adapt({"text": f"Zaimportowano {n} wpisów.", "sources": []})
 
+@router.get("/status")
+async def status():
+    """Status systemu pamięci"""
+    try:
+        from .memory_store import _connect
+        from .redis_middleware import get_redis
+        
+        # Sprawdź bazę danych SQLite
+        con = _connect()
+        cur = con.cursor()
+        
+        conv_count = cur.execute(
+            "SELECT COUNT(*) FROM conversations"
+        ).fetchone()[0]
+        
+        users = cur.execute(
+            "SELECT COUNT(DISTINCT user_id) FROM conversations"
+        ).fetchone()[0]
+        
+        # Ostatnia wiadomość
+        last_msg = cur.execute(
+            "SELECT created_at FROM conversations ORDER BY created_at DESC LIMIT 1"
+        ).fetchone()
+        last_activity = last_msg[0] if last_msg else 0
+        
+        con.close()
+        
+        # Sprawdź Redis cache
+        redis = get_redis()
+        redis_ok = hasattr(redis, 'get_stats')
+        redis_stats = redis.get_stats() if redis_ok else {}
+        
+        return {
+            "ok": True,
+            "status": "operational",
+            "database": "sqlite",
+            "cache": "redis" if redis_ok else "mock",
+            "stats": {
+                "conversations": conv_count,
+                "users": users,
+                "last_activity": last_activity,
+                "redis_memory": redis_stats.get("used_memory", "N/A"),
+                "cache_hit_rate": redis_stats.get("hit_rate", 0.0)
+            }
+        }
+    except Exception as e:
+        import traceback
+        return {"ok": False, "error": str(e), "trace": traceback.format_exc()}
+
+
 @router.post("/optimize")
 async def optimize(req: Request):
     memory_optimize()

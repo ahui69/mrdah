@@ -5,7 +5,7 @@ STT (Speech-to-Text) Endpoint - konwersja audio na tekst
 Wspiera: OpenAI Whisper, DeepInfra, Groq
 """
 
-from .response_adapter import adapt
+from response_adapter import adapt
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from typing import Optional

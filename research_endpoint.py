@@ -5,8 +5,8 @@ research_endpoint.py - Web search endpoints (DuckDuckGo, Wikipedia, SERPAPI, arX
 PRAWDZIWY dostęp do internetu przez wiele źródeł.
 """
 
-from .response_adapter import adapt
-from .research_policy import filter_sources_tenant,  filter_sources, is_allowed
+from response_adapter import _wrap_for_ui, adapt
+from research_policy import filter_sources_tenant, filter_sources, is_allowed
 from fastapi import Request, APIRouter, HTTPException, Depends, Header
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
@@ -144,7 +144,7 @@ async def available_sources(_auth: bool = Depends(verify_token)):
                 "available": True,
                 "type": "free",
                 "description": "DuckDuckGo HTML search - zawsze dostępne"
-            }),
+            },
             "wikipedia": {
                 "available": True,
                 "type": "free",
@@ -168,7 +168,7 @@ async def available_sources(_auth: bool = Depends(verify_token)):
             "firecrawl": {
                 "available": bool(FIRECRAWL_API_KEY),
                 "type": "paid",
-                "description": "Firecrawl scraping - wymaga klucza"
+                "description": "Firecrawl web scraping - wymaga klucza"
             }
         },
         "modes": {
@@ -177,7 +177,7 @@ async def available_sources(_auth: bool = Depends(verify_token)):
             "fast": "Szybkie (tylko DDG + Wiki)",
             "free": "Darmowe (tylko DDG + Wiki)"
         }
-    }
+    })
 
 
 @router.get("/test")
@@ -199,7 +199,8 @@ async def test_research(_auth: bool = Depends(verify_token)):
             "ok": result.get("ok", False),
             "sources_count": len(result.get("sources", [])),
             "answer_length": len(result.get("context", "")),
-            "test_passed": result.get("ok", False) and len(result.get("sources", [])) > 0
+            "test_passed": (result.get("ok", False) and 
+                             len(result.get("sources", [])) > 0)
         })
     except Exception as e:
         return _wrap_for_ui({

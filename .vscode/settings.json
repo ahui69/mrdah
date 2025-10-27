@@ -1,0 +1,17 @@
+{
+  "python.testing.pytestArgs": [
+    "core"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "files.readonlyInclude": {
+    "**": true
+  },
+  "files.readonlyExclude": {
+    "lib/custom_code/**": true,
+    "lib/flutter_flow/custom_functions.dart": true,
+    "pubspec.yaml": true,
+    "lib/flutter_flow/function_changes.json": true,
+    ".vscode/settings.json": true
+  }
+}

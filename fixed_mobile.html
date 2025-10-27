@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mordzix AI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0e27;
+            --card: #1a1f3a;
+            --accent: #00ff9f;
+            --text: #e0e0e0;
+            --dim: #8a8a8a;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: var(--card);
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            min-height: 50px;
+        }
+        .logo { 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: var(--accent);
+        }
+        .stats { 
+            font-size: 11px; 
+            color: var(--dim);
+        }
+        
+        .container { 
+            flex: 1; 
+            display: flex; 
+            overflow: hidden;
+            min-height: 0;
+        }
+        
+        .sidebar {
+            display: none;
+            width: 280px;
+            background: var(--card);
+            padding: 15px;
+            overflow-y: auto;
+            border-right: 1px solid #333;
+        }
+        
+        .main { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column;
+            min-width: 0;
+        }
+        
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 15px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .msg {
+            margin: 12px 0;
+            display: flex;
+            gap: 10px;
+        }
+        .msg.user { flex-direction: row-reverse; }
+        
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .msg.user .avatar { background: #667eea; }
+        
+        .content {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 14px;
+            word-break: break-word;
+        }
+        .msg.user .content {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .msg.assistant .content {
+            background: var(--card);
+            border: 1px solid var(--accent);
+        }
+        
+        .input-area {
+            background: var(--card);
+            padding: 12px 16px;
+            border-top: 1px solid #333;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        #userInput {
+            flex: 1;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            max-height: 100px;
+            font-family: inherit;
+        }
+        
+        #sendBtn {
+            padding: 12px 20px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        #sendBtn:active { opacity: 0.8; }
+        #sendBtn:disabled { opacity: 0.5; }
+        
+        .typing {
+            padding: 8px;
+            font-size: 12px;
+            color: var(--dim);
+            font-style: italic;
+        }
+        
+        .conv-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(0,255,159,0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            border-left: 3px solid var(--accent);
+            font-size: 14px;
+        }
+        .conv-item:active { background: rgba(0,255,159,0.2); }
+        .conv-item.active { background: rgba(0,255,159,0.3); }
+        
+        .new-chat {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        @media (min-width: 768px) {
+            .sidebar { display: block; }
+            .logo { font-size: 24px; }
+            .stats { font-size: 14px; }
+            .content { max-width: 70%; }
+            .avatar { width: 40px; height: 40px; font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🧠 MORDZIX AI</div>
+        <div class="stats">🔥 Online</div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <button class="new-chat" onclick="newConv()">+ Nowa rozmowa</button>
+            <div id="convList"></div>
+        </div>
+        
+        <div class="main">
+            <div class="messages" id="msgs"></div>
+            <div class="input-area">
+                <textarea id="userInput" placeholder="Napisz wiadomość..."></textarea>
+                <button id="sendBtn" onclick="send()">Wyślij</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const KEY = 'mordzix_convs';
+        const CUR = 'mordzix_cur';
+        
+        let convs = {};
+        let curId = null;
+        
+        function init() {
+            try {
+                convs = JSON.parse(localStorage.getItem(KEY) || '{}');
+                curId = localStorage.getItem(CUR);
+                
+                if (!curId || !convs[curId]) {
+                    curId = 'c' + Date.now();
+                    convs[curId] = { id: curId, title: 'Nowa', msgs: [], ts: Date.now() };
+                    save();
+                }
+                
+                render();
+            } catch(e) {
+                console.error('Init error:', e);
+                convs = {};
+                curId = 'c' + Date.now();
+                convs[curId] = { id: curId, title: 'Nowa', msgs: [], ts: Date.now() };
+                save();
+                render();
+            }
+        }
+        
+        function save() {
+            try {
+                localStorage.setItem(KEY, JSON.stringify(convs));
+                localStorage.setItem(CUR, curId);
+            } catch(e) {
+                console.error('Save error:', e);
+            }
+        }
+        
+        function render() {
+            const list = document.getElementById('convList');
+            const msgs = document.getElementById('msgs');
+            
+            if (list) {
+                list.innerHTML = Object.values(convs)
+                    .sort((a,b) => b.ts - a.ts)
+                    .map(c => `<div class="conv-item ${c.id === curId ? 'active' : ''}" onclick="load('${c.id}')">${esc(c.title)}</div>`)
+                    .join('');
+            }
+            
+            const conv = convs[curId];
+            if (conv && msgs) {
+                msgs.innerHTML = conv.msgs.map(m => `
+                    <div class="msg ${m.role}">
+                        <div class="avatar">${m.role === 'user' ? '👤' : '🧠'}</div>
+                        <div class="content">${esc(m.content).replace(/\n/g, '<br>')}</div>
+                    </div>
+                `).join('');
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+        }
+        
+        function esc(str) {
+            const d = document.createElement('div');
+            d.textContent = str || '';
+            return d.innerHTML;
+        }
+        
+        async function send() {
+            const inp = document.getElementById('userInput');
+            const btn = document.getElementById('sendBtn');
+            const txt = inp.value.trim();
+            
+            if (!txt) return;
+            
+            btn.disabled = true;
+            const conv = convs[curId];
+            
+            conv.msgs.push({ role: 'user', content: txt });
+            
+            if (conv.msgs.length === 1) {
+                conv.title = txt.substring(0, 30) + (txt.length > 30 ? '...' : '');
+            }
+            
+            save();
+            render();
+            inp.value = '';
+            
+            const msgs = document.getElementById('msgs');
+            msgs.innerHTML += '<div class="typing">🧠 Pisze...</div>';
+            msgs.scrollTop = msgs.scrollHeight;
+            
+            try {
+                const res = await fetch('/api/chat/assistant', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ssjjMijaja6969'
+                    },
+                    body: JSON.stringify({
+                        messages: conv.msgs.map(m => ({ role: m.role, content: m.content })),
+                        user_id: 'user1',
+                        use_memory: true
+                    })
+                });
+                
+                const data = await res.json();
+                
+                if (data.ok || data.answer) {
+                    conv.msgs.push({ 
+                        role: 'assistant', 
+                        content: data.answer || data.text || 'OK'
+                    });
+                } else {
+                    conv.msgs.push({ 
+                        role: 'assistant', 
+                        content: '❌ Błąd: ' + (data.error || res.status)
+                    });
+                }
+            } catch (err) {
+                conv.msgs.push({ 
+                    role: 'assistant', 
+                    content: '❌ Błąd: ' + err.message
+                });
+            }
+            
+            save();
+            render();
+            btn.disabled = false;
+        }
+        
+        function newConv() {
+            curId = 'c' + Date.now();
+            convs[curId] = { id: curId, title: 'Nowa', msgs: [], ts: Date.now() };
+            save();
+            render();
+        }
+        
+        function load(id) {
+            curId = id;
+            save();
+            render();
+        }
+        
+        document.getElementById('userInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                send();
+            }
+        });
+        
+        init();
+    </script>
+</body>
+</html>

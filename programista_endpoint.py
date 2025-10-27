@@ -5,7 +5,7 @@ programista_endpoint.py - Code Execution API
 Używa core/executor.py (Programista class)
 """
 
-from .response_adapter import adapt
+from response_adapter import adapt
 from fastapi import APIRouter, Request, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Dict, Any, Optional, List

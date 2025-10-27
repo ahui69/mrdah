@@ -123,6 +123,20 @@ class RedisCache:
             logger.error(f"Redis SET error for key '{key}': {e}")
             return False
     
+    def setex(self, key: str, ttl: int, value: Any) -> bool:
+        """
+        Set value with expiration time (Redis compatibility method)
+        
+        Args:
+            key: Cache key
+            ttl: Time-to-live in seconds
+            value: Value to store
+        
+        Returns:
+            True if successful, False otherwise
+        """
+        return self.set(key, value, ttl=ttl)
+    
     def delete(self, *keys: str) -> int:
         """
         Delete one or more keys
@@ -259,6 +273,7 @@ def get_redis() -> RedisCache:
             class MockRedis:
                 def get(self, *args, **kwargs): return None
                 def set(self, *args, **kwargs): return False
+                def setex(self, *args, **kwargs): return False
                 def delete(self, *args, **kwargs): return 0
                 def exists(self, *args, **kwargs): return 0
                 def get_stats(self): return {}

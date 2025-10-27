@@ -1,7 +1,7 @@
 # --- Core ---
 fastapi==0.115.2
 uvicorn[standard]==0.30.3
-httpx==0.27.2
+httpx~=0.24.0
 pydantic==2.9.2
 jinja2==3.1.4
 aiofiles==23.2.1
@@ -50,6 +50,15 @@ aiosqlite==0.20.0
 sqlalchemy==2.0.36
 ftfy==6.2.3
 regex==2024.9.11
+redis==5.0.8
+
+# --- Security / Auth ---
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.9
+
+# --- PDF / OCR ---
+PyPDF2==3.0.1
+pytesseract==0.3.13
 
 # --- Security / Crypto ---
 pycryptodome==3.21.0

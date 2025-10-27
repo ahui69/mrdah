@@ -3,11 +3,10 @@
 """
 assistant_endpoint.py - Now a lean endpoint that uses the Cognitive Engine.
 """
-from .response_adapter import adapt
 from fastapi import APIRouter, Request, HTTPException, Depends
 from .memory_store import save_message
 from .autoroute import decide
-from fastapi.responses import StreamingResponse, Response
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import os, json, asyncio
@@ -15,6 +14,7 @@ from dataclasses import dataclass, asdict
 
 # --- MAIN IMPORT: THE NEW COGNITIVE ENGINE ---
 from core.cognitive_engine import cognitive_engine
+from core.helpers import log_warning, log_info
 
 # Imports for memory saving (UnifiedMemorySystem)
 try:

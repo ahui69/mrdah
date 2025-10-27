@@ -83,6 +83,30 @@ except ImportError as e:
     log_warning(f"[COGNITIVE_ENGINE] Legacy Systems not available: {e}")
     LEGACY_SYSTEMS_AVAILABLE = False
 
+# Import Context Awareness
+try:
+    from .context_awareness import (
+        compress_context, trim_context_smart, 
+        create_rolling_summary, ContextAwarenessEngine
+    )
+    CONTEXT_AWARENESS_AVAILABLE = True
+    log_info("[COGNITIVE_ENGINE] ✅ Context Awareness System loaded")
+except ImportError as e:
+    log_warning(f"[COGNITIVE_ENGINE] Context Awareness not available: {e}")
+    CONTEXT_AWARENESS_AVAILABLE = False
+
+# Import Self-Reflection Engine
+try:
+    from .self_reflection import (
+        get_reflection_engine, reflect_on_response, 
+        ReflectionDepth, SelfReflectionEngine
+    )
+    SELF_REFLECTION_AVAILABLE = True
+    log_info("[COGNITIVE_ENGINE] ✅ Self-Reflection Engine loaded")
+except ImportError as e:
+    log_warning(f"[COGNITIVE_ENGINE] Self-Reflection not available: {e}")
+    SELF_REFLECTION_AVAILABLE = False
+
 class CognitiveEngine:
     """
     🧠 ZAAWANSOWANY SILNIK KOGNITYWNY MRD

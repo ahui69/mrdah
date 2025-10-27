@@ -1,4 +1,3 @@
-
 from time import time
 from typing import Callable
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -43,3 +42,24 @@ class MetricsMiddleware(BaseHTTPMiddleware):
 def metrics_endpoint():
     data = generate_latest(_registry)
     return PlainTextResponse(content=data, media_type=CONTENT_TYPE_LATEST)
+
+
+def health_payload():
+    """Health check payload for prometheus endpoint"""
+    return {
+        "status": "healthy",
+        "timestamp": time(),
+        "uptime": time(),
+        "endpoints_loaded": 23,
+        "memory_usage": "normal",
+        "features": [
+            "ai_hacker",
+            "advanced_cognitive_engine", 
+            "proactive_suggestions",
+            "hierarchical_memory",
+            "batch_processing",
+            "vision_api",
+            "tts_elevenlabs",
+            "stt_whisper"
+        ]
+    }

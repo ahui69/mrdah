@@ -16,6 +16,15 @@ from .config import (
 )
 from .helpers import log_error, log_warning, log_info
 
+# Import zaawansowanej integracji LLM
+try:
+    from .advanced_llm import adaptive_llm_call, batch_multiple_prompts, llm_metrics
+    ADVANCED_LLM_AVAILABLE = True
+    log_info("Advanced LLM integration loaded successfully")
+except ImportError as e:
+    log_warning(f"Advanced LLM not available: {e}")
+    ADVANCED_LLM_AVAILABLE = False
+
 # Import Redis cache
 try:
     from .redis_middleware import get_redis

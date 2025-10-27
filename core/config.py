@@ -30,7 +30,8 @@ AUTH_TOKEN = os.getenv("AUTH_TOKEN", "ssjjMijaja6969")
 # PATHS & DIRECTORIES
 # ═══════════════════════════════════════════════════════════════════
 
-BASE_DIR = os.getenv("WORKSPACE", "/workspace/mrd")
+BASE_DIR = os.getenv("WORKSPACE", 
+                   os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DB_PATH = os.getenv("MEM_DB", os.path.join(BASE_DIR, "data", "mem.db"))
 UPLOAD_DIR = os.getenv("UPLOAD_DIR", os.path.join(BASE_DIR, "uploads"))
 FRONTEND_INDEX = os.getenv("FRONTEND_INDEX", "/app/dist/index.html")
