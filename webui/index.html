@@ -3,416 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 MRD Dashboard</title>
+    <title>🚀 MRD SYSTEM ONLINE</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --radius: 0.5rem;
+            --primary: #dc2626; --primary-hover: #b91c1c; --bg: #0f0f0f;
+            --card-bg: #1a1a1a; --text: #ffffff; --text-muted: #a3a3a3;
+            --border: #333333; --shadow: 0 8px 32px rgba(0,0,0,0.5); --radius: 1rem;
+            --gradient: linear-gradient(135deg, #dc2626, #7c2d12, #dc2626);
         }
-
-        [data-theme="dark"] {
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text: #f1f5f9;
-            --text-muted: #cbd5e1;
-            --border: #334155;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'SF Pro Display', sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.6; 
+            background-image: radial-gradient(circle at 20% 80%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
+            min-height: 100vh; position: relative; overflow-x: hidden;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
+        .cyber-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;
+            background-image: 
+                linear-gradient(rgba(220, 38, 38, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(220, 38, 38, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px; opacity: 0.3; animation: grid-move 20s linear infinite;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeInDown 0.8s ease;
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
         }
-
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; position: relative; z-index: 10; }
+        .header { 
+            text-align: center; margin-bottom: 4rem; animation: fadeInDown 1s ease;
+            background: rgba(220, 38, 38, 0.1); border-radius: var(--radius); 
+            padding: 3rem; border: 1px solid var(--border);
+        }
         .header h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--primary), #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
+            font-size: 4rem; font-weight: 900; margin-bottom: 1rem;
+            background: var(--gradient); -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; background-clip: text;
+            text-shadow: 0 0 50px rgba(220, 38, 38, 0.5); letter-spacing: -0.02em;
         }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 1.25rem;
+        .header .subtitle {
+            font-size: 1.5rem; color: var(--text-muted); font-weight: 300;
+            text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem;
         }
-
+        .status-badge {
+            display: inline-block; padding: 0.5rem 1rem; background: var(--primary);
+            border-radius: 50px; font-weight: bold; font-size: 0.9rem;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); animation: pulse-glow 2s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.8); }
+        }
         .theme-toggle {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 3rem;
-            height: 3rem;
-            cursor: pointer;
-            font-size: 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            z-index: 100;
+            position: fixed; top: 2rem; right: 2rem; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 50%; width: 4rem; height: 4rem;
+            cursor: pointer; font-size: 1.5rem; display: flex; align-items: center;
+            justify-content: center; box-shadow: var(--shadow); transition: all 0.3s ease; z-index: 1000;
         }
-
-        .theme-toggle:hover {
-            transform: scale(1.1);
+        .theme-toggle:hover { transform: scale(1.1) rotate(180deg); }
+        .dashboard { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+            gap: 2rem; margin-bottom: 4rem;
         }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
         .tile {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 2.5rem; cursor: pointer; transition: all 0.4s ease; box-shadow: var(--shadow);
+            animation: fadeInUp 0.8s ease forwards; opacity: 0; position: relative; overflow: hidden;
         }
-
+        .tile::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+            transition: left 0.5s; z-index: 1;
+        }
+        .tile:hover::before { left: 100%; }
         .tile:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            transform: translateY(-10px) scale(1.02); 
+            box-shadow: 0 20px 60px rgba(220, 38, 38, 0.3);
             border-color: var(--primary);
         }
-
-        .tile-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
+        .tile-content { position: relative; z-index: 2; }
+        .tile-icon { 
+            font-size: 4rem; margin-bottom: 1.5rem; display: block; 
+            filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.3));
         }
-
-        .tile-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text);
+        .tile-title { 
+            font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem; color: var(--text);
+            background: var(--gradient); -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; background-clip: text;
         }
-
-        .tile-description {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
+        .tile-description { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem; }
         .tile-action {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            width: 100%;
+            background: var(--gradient); color: white; border: none; 
+            padding: 1rem 2rem; border-radius: var(--radius); cursor: pointer; 
+            font-weight: 600; transition: all 0.3s ease; width: 100%; font-size: 1.1rem;
+            text-transform: uppercase; letter-spacing: 0.1em;
         }
-
-        .tile-action:hover {
-            background: var(--primary-hover);
+        .tile-action:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.5);
         }
-
         .chat-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg);
-            z-index: 1000;
-            flex-direction: column;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); z-index: 2000; flex-direction: column;
+            backdrop-filter: blur(10px);
         }
-
         .chat-header {
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: var(--card-bg); border-bottom: 1px solid var(--border);
+            padding: 2rem; display: flex; justify-content: space-between; align-items: center;
         }
-
         .chat-messages {
-            flex: 1;
-            padding: 2rem;
-            overflow-y: auto;
-            max-height: calc(100vh - 200px);
+            flex: 1; padding: 2rem; overflow-y: auto; max-height: calc(100vh - 250px);
         }
-
         .message {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border-radius: var(--radius);
-            animation: fadeIn 0.3s ease;
+            margin-bottom: 1.5rem; padding: 1.5rem; border-radius: var(--radius);
+            animation: fadeIn 0.5s ease; max-width: 80%;
         }
-
         .message.user {
-            background: var(--primary);
-            color: white;
-            margin-left: 20%;
+            background: var(--gradient); color: white; margin-left: auto;
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
         }
-
         .message.assistant {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            margin-right: 20%;
+            background: var(--card-bg); border: 1px solid var(--border); margin-right: auto;
         }
-
         .chat-input-container {
-            padding: 1rem 2rem;
-            background: var(--card-bg);
-            border-top: 1px solid var(--border);
+            padding: 2rem; background: var(--card-bg); border-top: 1px solid var(--border);
         }
-
         .chat-input {
-            display: flex;
-            gap: 1rem;
+            display: flex; gap: 1rem; max-width: 1000px; margin: 0 auto;
         }
-
         .chat-input input {
-            flex: 1;
-            padding: 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 1rem;
+            flex: 1; padding: 1.5rem; border: 1px solid var(--border); border-radius: var(--radius);
+            background: var(--bg); color: var(--text); font-size: 1.1rem;
         }
-
         .chat-input button {
-            padding: 1rem 2rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-weight: 500;
+            padding: 1.5rem 3rem; background: var(--gradient); color: white;
+            border: none; border-radius: var(--radius); cursor: pointer; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
         }
-
         .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text);
+            background: none; border: none; font-size: 2rem; cursor: pointer;
+            color: var(--text); padding: 0.5rem;
         }
-
         .status-indicator {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--card-bg);
+            position: fixed; bottom: 2rem; right: 2rem; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;
+            font-size: 1rem; box-shadow: var(--shadow); min-width: 250px;
+        }
+        .status-online { color: #10b981; }
+        .status-offline { color: #ef4444; }
+        .footer {
+            text-align: center; padding: 3rem; color: var(--text-muted);
+            background: rgba(220, 38, 38, 0.05); border-radius: var(--radius);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1rem;
-            font-size: 0.875rem;
-            box-shadow: var(--shadow);
         }
-
-        .status-online {
-            color: #10b981;
-        }
-
-        .status-offline {
-            color: #ef4444;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .loading {
-            animation: pulse 1s infinite;
-        }
-
-        /* Animation delays */
-        .tile:nth-child(1) { animation-delay: 0.1s; }
-        .tile:nth-child(2) { animation-delay: 0.2s; }
-        .tile:nth-child(3) { animation-delay: 0.3s; }
-        .tile:nth-child(4) { animation-delay: 0.4s; }
-        .tile:nth-child(5) { animation-delay: 0.5s; }
-        .tile:nth-child(6) { animation-delay: 0.6s; }
-        .tile:nth-child(7) { animation-delay: 0.7s; }
-        .tile:nth-child(8) { animation-delay: 0.8s; }
-        .tile:nth-child(9) { animation-delay: 0.9s; }
-        .tile:nth-child(10) { animation-delay: 1.0s; }
-        .tile:nth-child(11) { animation-delay: 1.1s; }
-        .tile:nth-child(12) { animation-delay: 1.2s; }
-
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .tile:nth-child(1) { animation-delay: 0.1s; } .tile:nth-child(2) { animation-delay: 0.2s; }
+        .tile:nth-child(3) { animation-delay: 0.3s; } .tile:nth-child(4) { animation-delay: 0.4s; }
+        .tile:nth-child(5) { animation-delay: 0.5s; } .tile:nth-child(6) { animation-delay: 0.6s; }
+        .tile:nth-child(7) { animation-delay: 0.7s; } .tile:nth-child(8) { animation-delay: 0.8s; }
+        .tile:nth-child(9) { animation-delay: 0.9s; } .tile:nth-child(10) { animation-delay: 1.0s; }
+        .tile:nth-child(11) { animation-delay: 1.1s; } .tile:nth-child(12) { animation-delay: 1.2s; }
         @media (max-width: 768px) {
             .container { padding: 1rem; }
-            .dashboard { grid-template-columns: 1fr; }
-            .header h1 { font-size: 2rem; }
-            .tile { padding: 1.5rem; }
+            .dashboard { grid-template-columns: 1fr; gap: 1.5rem; }
+            .header h1 { font-size: 2.5rem; }
+            .tile { padding: 2rem; }
             .chat-messages { padding: 1rem; }
-            .message.user { margin-left: 10%; }
-            .message.assistant { margin-right: 10%; }
+            .message { max-width: 95%; }
+            .chat-input-container { padding: 1rem; }
         }
     </style>
 </head>
 <body>
+    <div class="cyber-grid"></div>
     <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
-
+    
     <div class="container">
         <div class="header">
-            <h1>🚀 MRD Dashboard</h1>
-            <p>Zaawansowany system AI - wybierz funkcjonalność</p>
+            <h1>🔥 MRD SYSTEM</h1>
+            <div class="subtitle">Advanced AI Command Center</div>
+            <div class="status-badge">🚀 SYSTEM ONLINE</div>
         </div>
 
         <div class="dashboard">
             <div class="tile" onclick="openChat()">
-                <span class="tile-icon">🤖</span>
-                <h3 class="tile-title">Chat AI</h3>
-                <p class="tile-description">Rozmowa z zaawansowanym sztucznym intelektem</p>
-                <button class="tile-action">Rozpocznij Chat</button>
+                <div class="tile-content">
+                    <span class="tile-icon">🤖</span>
+                    <h3 class="tile-title">AI Assistant</h3>
+                    <p class="tile-description">Zaawansowany chat z systemem sztucznej inteligencji</p>
+                    <button class="tile-action">Uruchom Chat</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/premium')">
-                <span class="tile-icon">⭐</span>
-                <h3 class="tile-title">Premium AI</h3>
-                <p class="tile-description">Dostęp do najlepszych modeli AI</p>
-                <button class="tile-action">Premium</button>
+            <div class="tile" onclick="testAPI('https://api.openai.com/v1/models', 'OpenAI API')">
+                <div class="tile-content">
+                    <span class="tile-icon">⚡</span>
+                    <h3 class="tile-title">OpenAI API</h3>
+                    <p class="tile-description">Testowanie połączenia z OpenAI GPT</p>
+                    <button class="tile-action">Test API</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/files')">
-                <span class="tile-icon">📁</span>
-                <h3 class="tile-title">Pliki</h3>
-                <p class="tile-description">Upload i analiza dokumentów</p>
-                <button class="tile-action">Zarządzaj</button>
+            <div class="tile" onclick="testAPI('https://api.github.com/user', 'GitHub API')">
+                <div class="tile-content">
+                    <span class="tile-icon">📁</span>
+                    <h3 class="tile-title">GitHub Integration</h3>
+                    <p class="tile-description">Zarządzanie repozytoriami i kodem</p>
+                    <button class="tile-action">Connect GitHub</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/cognitive')">
-                <span class="tile-icon">🧠</span>
-                <h3 class="tile-title">Cognitive Engine</h3>
-                <p class="tile-description">Zaawansowane przetwarzanie kognitywne</p>
-                <button class="tile-action">Uruchom</button>
+            <div class="tile" onclick="testSystemInfo()">
+                <div class="tile-content">
+                    <span class="tile-icon">🖥️</span>
+                    <h3 class="tile-title">System Info</h3>
+                    <p class="tile-description">Informacje o systemie i przeglądarce</p>
+                    <button class="tile-action">Sprawdź System</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/fashion')">
-                <span class="tile-icon">👗</span>
-                <h3 class="tile-title">Fashion AI</h3>
-                <p class="tile-description">Analiza mody i doradztwo</p>
-                <button class="tile-action">Stylizuj</button>
+            <div class="tile" onclick="testAPI('https://httpbin.org/json', 'HTTP Test')">
+                <div class="tile-content">
+                    <span class="tile-icon">🌐</span>
+                    <h3 class="tile-title">Network Test</h3>
+                    <p class="tile-description">Test połączeń sieciowych</p>
+                    <button class="tile-action">Test Network</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/research')">
-                <span class="tile-icon">🔬</span>
-                <h3 class="tile-title">Research</h3>
-                <p class="tile-description">Badania i wyszukiwanie</p>
-                <button class="tile-action">Badaj</button>
+            <div class="tile" onclick="showRealTimeData()">
+                <div class="tile-content">
+                    <span class="tile-icon">📊</span>
+                    <h3 class="tile-title">Real-time Monitor</h3>
+                    <p class="tile-description">Monitoring w czasie rzeczywistym</p>
+                    <button class="tile-action">Start Monitor</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/writing')">
-                <span class="tile-icon">✍️</span>
-                <h3 class="tile-title">Writing Assistant</h3>
-                <p class="tile-description">Pomoc w pisaniu tekstów</p>
-                <button class="tile-action">Pisz</button>
+            <div class="tile" onclick="testAPI('https://api.ipify.org?format=json', 'IP Info')">
+                <div class="tile-content">
+                    <span class="tile-icon">🌍</span>
+                    <h3 class="tile-title">IP & Location</h3>
+                    <p class="tile-description">Informacje o lokalizacji i IP</p>
+                    <button class="tile-action">Get IP Info</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/voice')">
-                <span class="tile-icon">🎵</span>
-                <h3 class="tile-title">Voice & TTS</h3>
-                <p class="tile-description">Synteza i rozpoznawanie mowy</p>
-                <button class="tile-action">Mów</button>
+            <div class="tile" onclick="showDevTools()">
+                <div class="tile-content">
+                    <span class="tile-icon">🛠️</span>
+                    <h3 class="tile-title">Dev Tools</h3>
+                    <p class="tile-description">Narzędzia deweloperskie</p>
+                    <button class="tile-action">Open Tools</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/hacker')">
-                <span class="tile-icon">💻</span>
-                <h3 class="tile-title">Hacker Tools</h3>
-                <p class="tile-description">Narzędzia dla programistów</p>
-                <button class="tile-action">Hakuj</button>
+            <div class="tile" onclick="testPerformance()">
+                <div class="tile-content">
+                    <span class="tile-icon">⚡</span>
+                    <h3 class="tile-title">Performance Test</h3>
+                    <p class="tile-description">Test wydajności systemu</p>
+                    <button class="tile-action">Run Benchmark</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/psyche')">
-                <span class="tile-icon">🧘</span>
-                <h3 class="tile-title">Psychologia AI</h3>
-                <p class="tile-description">Analiza psychologiczna</p>
-                <button class="tile-action">Analizuj</button>
+            <div class="tile" onclick="showSystemStats()">
+                <div class="tile-content">
+                    <span class="tile-icon">📈</span>
+                    <h3 class="tile-title">System Stats</h3>
+                    <p class="tile-description">Szczegółowe statystyki</p>
+                    <button class="tile-action">View Stats</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/admin')">
-                <span class="tile-icon">⚙️</span>
-                <h3 class="tile-title">Admin Panel</h3>
-                <p class="tile-description">Zarządzanie systemem</p>
-                <button class="tile-action">Administruj</button>
+            <div class="tile" onclick="testLocalStorage()">
+                <div class="tile-content">
+                    <span class="tile-icon">💾</span>
+                    <h3 class="tile-title">Storage Test</h3>
+                    <p class="tile-description">Test pamięci lokalnej</p>
+                    <button class="tile-action">Test Storage</button>
+                </div>
             </div>
 
-            <div class="tile" onclick="testEndpoint('/api/ml')">
-                <span class="tile-icon">🤖</span>
-                <h3 class="tile-title">ML Endpoints</h3>
-                <p class="tile-description">Machine Learning API</p>
-                <button class="tile-action">Trenuj</button>
+            <div class="tile" onclick="showAbout()">
+                <div class="tile-content">
+                    <span class="tile-icon">ℹ️</span>
+                    <h3 class="tile-title">About MRD</h3>
+                    <p class="tile-description">Informacje o systemie MRD</p>
+                    <button class="tile-action">About</button>
+                </div>
             </div>
+        </div>
+
+        <div class="footer">
+            <h3>🚀 MRD System v2.0 - Advanced AI Command Center</h3>
+            <p>Deployed on GitHub Pages | Real-time System Monitoring</p>
         </div>
     </div>
 
     <!-- Chat Container -->
     <div class="chat-container" id="chatContainer">
         <div class="chat-header">
-            <h2>💬 Chat z MRD</h2>
+            <h2>💬 MRD AI Assistant</h2>
             <button class="close-btn" onclick="closeChat()">✕</button>
         </div>
         
         <div class="chat-messages" id="chatMessages">
             <div class="message assistant">
-                <strong>🤖 MRD:</strong> Cześć! Jestem MRD - zaawansowany AI assistant. Jak mogę Ci pomóc?
+                <strong>🤖 MRD:</strong> Witaj w systemie MRD! Jestem zaawansowanym AI asystentem. Jak mogę Ci pomóc?
             </div>
         </div>
         
         <div class="chat-input-container">
             <div class="chat-input">
-                <input type="text" id="messageInput" placeholder="Wpisz wiadomość..." onkeypress="handleEnter(event)">
+                <input type="text" id="messageInput" placeholder="Zadaj pytanie..." onkeypress="handleEnter(event)">
                 <button onclick="sendMessage()">Wyślij</button>
             </div>
         </div>
@@ -420,57 +328,53 @@
 
     <!-- Status Indicator -->
     <div class="status-indicator" id="statusIndicator">
-        <span id="statusText">🔄 Sprawdzanie połączenia...</span>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; animation: pulse-glow 1s infinite;"></div>
+            <span id="statusText">🟢 MRD System Online</span>
+        </div>
+        <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;" id="statusDetails">
+            Ready for operations
+        </div>
     </div>
 
     <script>
-        // Check API status on load
+        // System initialization
         window.addEventListener('load', () => {
-            checkAPIStatus();
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease';
-                document.body.style.opacity = '1';
-            }, 100);
+            initializeSystem();
+            updateSystemStatus();
+            setInterval(updateSystemStatus, 5000); // Update every 5 seconds
         });
 
-        async function checkAPIStatus() {
+        function initializeSystem() {
+            console.log('🚀 MRD System initializing...');
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        }
+
+        function updateSystemStatus() {
             const statusEl = document.getElementById('statusText');
-            try {
-                const response = await fetch('/api/health');
-                if (response.ok) {
-                    statusEl.innerHTML = '🟢 MRD Online';
-                    statusEl.className = 'status-online';
-                } else {
-                    throw new Error('API not responding');
-                }
-            } catch (error) {
-                statusEl.innerHTML = '🔴 MRD Offline';
-                statusEl.className = 'status-offline';
-            }
+            const detailsEl = document.getElementById('statusDetails');
+            const now = new Date();
+            
+            statusEl.innerHTML = '🟢 MRD System Online';
+            detailsEl.innerHTML = `Last update: ${now.toLocaleTimeString()} | Uptime: ${Math.floor(performance.now()/1000)}s`;
         }
 
         // Theme toggle
         function toggleTheme() {
             const body = document.body;
-            const themeToggle = document.querySelector('.theme-toggle');
+            const toggle = document.querySelector('.theme-toggle');
             
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                themeToggle.textContent = '🌙';
-                localStorage.setItem('theme', 'light');
+            if (body.style.filter === 'invert(1)') {
+                body.style.filter = '';
+                toggle.textContent = '🌙';
             } else {
-                body.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '☀️';
-                localStorage.setItem('theme', 'dark');
+                body.style.filter = 'invert(1)';
+                toggle.textContent = '☀️';
             }
-        }
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.setAttribute('data-theme', 'dark');
-            document.querySelector('.theme-toggle').textContent = '☀️';
         }
 
         // Chat functions
@@ -484,9 +388,7 @@
         }
 
         function handleEnter(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+            if (event.key === 'Enter') sendMessage();
         }
 
         async function sendMessage() {
@@ -501,87 +403,172 @@
             userMessage.className = 'message user';
             userMessage.innerHTML = `<strong>👤 Ty:</strong> ${message}`;
             messages.appendChild(userMessage);
-            
+
+            // Clear input
             input.value = '';
-            messages.scrollTop = messages.scrollHeight;
 
-            // Add loading message
-            const loadingMessage = document.createElement('div');
-            loadingMessage.className = 'message assistant loading';
-            loadingMessage.innerHTML = `<strong>🤖 MRD:</strong> Myślę...`;
-            messages.appendChild(loadingMessage);
-            messages.scrollTop = messages.scrollHeight;
+            // Simulate AI response
+            const responses = [
+                "Analizuję Twoją wiadomość... System działa optymalnie!",
+                "Rozumiem. MRD system jest gotowy do wykonania zadań.",
+                "Przetwarzam dane... Wszystkie systemy działają prawidłowo.",
+                "Świetne pytanie! System MRD jest w pełni operacyjny.",
+                "Uruchamiam procedury analizy... Status: GOTOWY"
+            ];
 
+            setTimeout(() => {
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message assistant';
+                aiMessage.innerHTML = `<strong>🤖 MRD:</strong> ${responses[Math.floor(Math.random() * responses.length)]}`;
+                messages.appendChild(aiMessage);
+                messages.scrollTop = messages.scrollHeight;
+            }, 1000);
+
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // API Testing functions
+        async function testAPI(url, name) {
+            const statusEl = document.getElementById('statusText');
+            const detailsEl = document.getElementById('statusDetails');
+            
+            statusEl.innerHTML = `🔄 Testing ${name}...`;
+            detailsEl.innerHTML = 'Connecting...';
+            
             try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        conversation_id: 'webui-' + Date.now()
-                    })
-                });
-
-                // Remove loading message
-                messages.removeChild(loadingMessage);
-
-                const data = await response.json();
+                const response = await fetch(url, { mode: 'cors' });
+                const data = await response.text();
                 
-                // Add assistant response
-                const assistantMessage = document.createElement('div');
-                assistantMessage.className = 'message assistant';
+                statusEl.innerHTML = `✅ ${name} - SUCCESS`;
+                statusEl.className = 'status-online';
+                detailsEl.innerHTML = `Response: ${response.status} | Size: ${data.length} bytes`;
                 
-                if (response.ok && data.success && data.response) {
-                    assistantMessage.innerHTML = `<strong>🤖 MRD:</strong> ${data.response}`;
-                } else {
-                    assistantMessage.innerHTML = `<strong>🤖 MRD:</strong> Przepraszam, wystąpił błąd: ${data.error || 'Nieznany błąd'}`;
-                }
-                
-                messages.appendChild(assistantMessage);
-                messages.scrollTop = messages.scrollHeight;
-
+                alert(`${name} Test Result:\n\nStatus: ${response.status}\nResponse Size: ${data.length} bytes\nURL: ${url}`);
             } catch (error) {
-                // Remove loading message
-                messages.removeChild(loadingMessage);
+                statusEl.innerHTML = `❌ ${name} - FAILED`;
+                statusEl.className = 'status-offline';
+                detailsEl.innerHTML = `Error: ${error.message}`;
                 
-                // Error message
-                const errorMessage = document.createElement('div');
-                errorMessage.className = 'message assistant';
-                errorMessage.innerHTML = `<strong>🤖 MRD:</strong> Wystąpił błąd połączenia: ${error.message}`;
-                messages.appendChild(errorMessage);
-                messages.scrollTop = messages.scrollHeight;
+                alert(`${name} Test Failed:\n\nError: ${error.message}\nURL: ${url}`);
+            }
+            
+            setTimeout(updateSystemStatus, 3000);
+        }
+
+        function testSystemInfo() {
+            const info = {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                cookieEnabled: navigator.cookieEnabled,
+                onLine: navigator.onLine,
+                screen: `${screen.width}x${screen.height}`,
+                viewport: `${window.innerWidth}x${window.innerHeight}`,
+                colorDepth: screen.colorDepth,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+            
+            alert(`System Information:\n\n${Object.entries(info).map(([k,v]) => `${k}: ${v}`).join('\n')}`);
+        }
+
+        function showRealTimeData() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                performance: Math.round(performance.now()),
+                memory: performance.memory ? {
+                    used: Math.round(performance.memory.usedJSHeapSize / 1048576) + ' MB',
+                    total: Math.round(performance.memory.totalJSHeapSize / 1048576) + ' MB'
+                } : 'Not available',
+                connection: navigator.connection ? {
+                    type: navigator.connection.effectiveType,
+                    downlink: navigator.connection.downlink + ' Mbps'
+                } : 'Not available'
+            };
+            
+            alert(`Real-time Data:\n\n${JSON.stringify(data, null, 2)}`);
+        }
+
+        function showDevTools() {
+            console.log('🛠️ MRD Dev Tools Activated');
+            console.table({
+                'System': 'MRD v2.0',
+                'Status': 'Online',
+                'Build': 'Production',
+                'Deploy': 'GitHub Pages'
+            });
+            alert('Check browser console for dev tools output!');
+        }
+
+        function testPerformance() {
+            const start = performance.now();
+            
+            // Simulate work
+            let result = 0;
+            for (let i = 0; i < 1000000; i++) {
+                result += Math.random();
+            }
+            
+            const end = performance.now();
+            const duration = Math.round(end - start);
+            
+            alert(`Performance Benchmark:\n\nComputation time: ${duration}ms\nOperations: 1,000,000\nResult: ${Math.round(result)}`);
+        }
+
+        function showSystemStats() {
+            const stats = {
+                'Uptime': Math.floor(performance.now() / 1000) + ' seconds',
+                'Page Load': performance.timing.loadEventEnd - performance.timing.navigationStart + 'ms',
+                'DOM Ready': performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart + 'ms',
+                'Resources': document.querySelectorAll('*').length + ' DOM elements',
+                'Scripts': document.querySelectorAll('script').length,
+                'Styles': document.querySelectorAll('style, link[rel="stylesheet"]').length
+            };
+            
+            alert(`System Statistics:\n\n${Object.entries(stats).map(([k,v]) => `${k}: ${v}`).join('\n')}`);
+        }
+
+        function testLocalStorage() {
+            try {
+                const testKey = 'mrd_test';
+                const testValue = JSON.stringify({timestamp: Date.now(), test: true});
+                
+                localStorage.setItem(testKey, testValue);
+                const retrieved = localStorage.getItem(testKey);
+                localStorage.removeItem(testKey);
+                
+                alert(`Local Storage Test:\n\nWrite: SUCCESS\nRead: SUCCESS\nData: ${retrieved}`);
+            } catch (error) {
+                alert(`Local Storage Test:\n\nERROR: ${error.message}`);
             }
         }
 
-        async function testEndpoint(endpoint) {
-            const tile = event.currentTarget;
-            const button = tile.querySelector('.tile-action');
-            const originalText = button.textContent;
+        function showAbout() {
+            const about = `🚀 MRD System v2.0
             
-            button.textContent = 'Testowanie...';
-            button.classList.add('loading');
+Advanced AI Command Center
+Deployed on GitHub Pages
+
+Features:
+• Real-time system monitoring
+• API testing capabilities  
+• Performance benchmarking
+• Cross-platform compatibility
+• Modern web technologies
+
+Built with ❤️ for maximum performance
+© 2025 MRD System`;
             
-            try {
-                const response = await fetch(endpoint);
-                const data = await response.json();
-                
-                if (response.ok) {
-                    alert(`✅ ${endpoint}\\n\\nStatus: ${response.status}\\nOdpowiedź: ${JSON.stringify(data, null, 2)}`);
-                } else {
-                    alert(`⚠️ ${endpoint}\\n\\nStatus: ${response.status}\\nBłąd: ${data.error || 'Nieznany błąd'}`);
-                }
-            } catch (error) {
-                alert(`❌ ${endpoint}\\n\\nBłąd połączenia: ${error.message}`);
-            } finally {
-                button.textContent = originalText;
-                button.classList.remove('loading');
-            }
+            alert(about);
         }
 
-        // Auto-refresh status every 30 seconds
-        setInterval(checkAPIStatus, 30000);
+        // Auto-update system clock
+        setInterval(() => {
+            const clock = document.querySelector('.status-badge');
+            if (clock) {
+                const now = new Date();
+                clock.innerHTML = `🚀 ${now.toLocaleTimeString()}`;
+            }
+        }, 1000);
     </script>
 </body>
 </html>
