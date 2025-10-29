@@ -1,13 +1,587 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>webui</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 MRD Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --radius: 0.5rem;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --border: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            cursor: pointer;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tile {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .tile:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            border-color: var(--primary);
+        }
+
+        .tile-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .tile-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .tile-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .tile-action {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .tile-action:hover {
+            background: var(--primary-hover);
+        }
+
+        .chat-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message.user {
+            background: var(--primary);
+            color: white;
+            margin-left: 20%;
+        }
+
+        .message.assistant {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            margin-right: 20%;
+        }
+
+        .chat-input-container {
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .chat-input button {
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .status-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow);
+        }
+
+        .status-online {
+            color: #10b981;
+        }
+
+        .status-offline {
+            color: #ef4444;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 1s infinite;
+        }
+
+        /* Animation delays */
+        .tile:nth-child(1) { animation-delay: 0.1s; }
+        .tile:nth-child(2) { animation-delay: 0.2s; }
+        .tile:nth-child(3) { animation-delay: 0.3s; }
+        .tile:nth-child(4) { animation-delay: 0.4s; }
+        .tile:nth-child(5) { animation-delay: 0.5s; }
+        .tile:nth-child(6) { animation-delay: 0.6s; }
+        .tile:nth-child(7) { animation-delay: 0.7s; }
+        .tile:nth-child(8) { animation-delay: 0.8s; }
+        .tile:nth-child(9) { animation-delay: 0.9s; }
+        .tile:nth-child(10) { animation-delay: 1.0s; }
+        .tile:nth-child(11) { animation-delay: 1.1s; }
+        .tile:nth-child(12) { animation-delay: 1.2s; }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .dashboard { grid-template-columns: 1fr; }
+            .header h1 { font-size: 2rem; }
+            .tile { padding: 1.5rem; }
+            .chat-messages { padding: 1rem; }
+            .message.user { margin-left: 10%; }
+            .message.assistant { margin-right: 10%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🚀 MRD Dashboard</h1>
+            <p>Zaawansowany system AI - wybierz funkcjonalność</p>
+        </div>
+
+        <div class="dashboard">
+            <div class="tile" onclick="openChat()">
+                <span class="tile-icon">🤖</span>
+                <h3 class="tile-title">Chat AI</h3>
+                <p class="tile-description">Rozmowa z zaawansowanym sztucznym intelektem</p>
+                <button class="tile-action">Rozpocznij Chat</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/premium')">
+                <span class="tile-icon">⭐</span>
+                <h3 class="tile-title">Premium AI</h3>
+                <p class="tile-description">Dostęp do najlepszych modeli AI</p>
+                <button class="tile-action">Premium</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/files')">
+                <span class="tile-icon">📁</span>
+                <h3 class="tile-title">Pliki</h3>
+                <p class="tile-description">Upload i analiza dokumentów</p>
+                <button class="tile-action">Zarządzaj</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/cognitive')">
+                <span class="tile-icon">🧠</span>
+                <h3 class="tile-title">Cognitive Engine</h3>
+                <p class="tile-description">Zaawansowane przetwarzanie kognitywne</p>
+                <button class="tile-action">Uruchom</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/fashion')">
+                <span class="tile-icon">👗</span>
+                <h3 class="tile-title">Fashion AI</h3>
+                <p class="tile-description">Analiza mody i doradztwo</p>
+                <button class="tile-action">Stylizuj</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/research')">
+                <span class="tile-icon">🔬</span>
+                <h3 class="tile-title">Research</h3>
+                <p class="tile-description">Badania i wyszukiwanie</p>
+                <button class="tile-action">Badaj</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/writing')">
+                <span class="tile-icon">✍️</span>
+                <h3 class="tile-title">Writing Assistant</h3>
+                <p class="tile-description">Pomoc w pisaniu tekstów</p>
+                <button class="tile-action">Pisz</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/voice')">
+                <span class="tile-icon">🎵</span>
+                <h3 class="tile-title">Voice & TTS</h3>
+                <p class="tile-description">Synteza i rozpoznawanie mowy</p>
+                <button class="tile-action">Mów</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/hacker')">
+                <span class="tile-icon">💻</span>
+                <h3 class="tile-title">Hacker Tools</h3>
+                <p class="tile-description">Narzędzia dla programistów</p>
+                <button class="tile-action">Hakuj</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/psyche')">
+                <span class="tile-icon">🧘</span>
+                <h3 class="tile-title">Psychologia AI</h3>
+                <p class="tile-description">Analiza psychologiczna</p>
+                <button class="tile-action">Analizuj</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/admin')">
+                <span class="tile-icon">⚙️</span>
+                <h3 class="tile-title">Admin Panel</h3>
+                <p class="tile-description">Zarządzanie systemem</p>
+                <button class="tile-action">Administruj</button>
+            </div>
+
+            <div class="tile" onclick="testEndpoint('/api/ml')">
+                <span class="tile-icon">🤖</span>
+                <h3 class="tile-title">ML Endpoints</h3>
+                <p class="tile-description">Machine Learning API</p>
+                <button class="tile-action">Trenuj</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h2>💬 Chat z MRD</h2>
+            <button class="close-btn" onclick="closeChat()">✕</button>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message assistant">
+                <strong>🤖 MRD:</strong> Cześć! Jestem MRD - zaawansowany AI assistant. Jak mogę Ci pomóc?
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Wpisz wiadomość..." onkeypress="handleEnter(event)">
+                <button onclick="sendMessage()">Wyślij</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Indicator -->
+    <div class="status-indicator" id="statusIndicator">
+        <span id="statusText">🔄 Sprawdzanie połączenia...</span>
+    </div>
+
+    <script>
+        // Check API status on load
+        window.addEventListener('load', () => {
+            checkAPIStatus();
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        async function checkAPIStatus() {
+            const statusEl = document.getElementById('statusText');
+            try {
+                const response = await fetch('/api/health');
+                if (response.ok) {
+                    statusEl.innerHTML = '🟢 MRD Online';
+                    statusEl.className = 'status-online';
+                } else {
+                    throw new Error('API not responding');
+                }
+            } catch (error) {
+                statusEl.innerHTML = '🔴 MRD Offline';
+                statusEl.className = 'status-offline';
+            }
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+
+        // Chat functions
+        function openChat() {
+            document.getElementById('chatContainer').style.display = 'flex';
+            document.getElementById('messageInput').focus();
+        }
+
+        function closeChat() {
+            document.getElementById('chatContainer').style.display = 'none';
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const messages = document.getElementById('chatMessages');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.innerHTML = `<strong>👤 Ty:</strong> ${message}`;
+            messages.appendChild(userMessage);
+            
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+
+            // Add loading message
+            const loadingMessage = document.createElement('div');
+            loadingMessage.className = 'message assistant loading';
+            loadingMessage.innerHTML = `<strong>🤖 MRD:</strong> Myślę...`;
+            messages.appendChild(loadingMessage);
+            messages.scrollTop = messages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversation_id: 'webui-' + Date.now()
+                    })
+                });
+
+                // Remove loading message
+                messages.removeChild(loadingMessage);
+
+                const data = await response.json();
+                
+                // Add assistant response
+                const assistantMessage = document.createElement('div');
+                assistantMessage.className = 'message assistant';
+                
+                if (response.ok && data.success && data.response) {
+                    assistantMessage.innerHTML = `<strong>🤖 MRD:</strong> ${data.response}`;
+                } else {
+                    assistantMessage.innerHTML = `<strong>🤖 MRD:</strong> Przepraszam, wystąpił błąd: ${data.error || 'Nieznany błąd'}`;
+                }
+                
+                messages.appendChild(assistantMessage);
+                messages.scrollTop = messages.scrollHeight;
+
+            } catch (error) {
+                // Remove loading message
+                messages.removeChild(loadingMessage);
+                
+                // Error message
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message assistant';
+                errorMessage.innerHTML = `<strong>🤖 MRD:</strong> Wystąpił błąd połączenia: ${error.message}`;
+                messages.appendChild(errorMessage);
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        async function testEndpoint(endpoint) {
+            const tile = event.currentTarget;
+            const button = tile.querySelector('.tile-action');
+            const originalText = button.textContent;
+            
+            button.textContent = 'Testowanie...';
+            button.classList.add('loading');
+            
+            try {
+                const response = await fetch(endpoint);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert(`✅ ${endpoint}\\n\\nStatus: ${response.status}\\nOdpowiedź: ${JSON.stringify(data, null, 2)}`);
+                } else {
+                    alert(`⚠️ ${endpoint}\\n\\nStatus: ${response.status}\\nBłąd: ${data.error || 'Nieznany błąd'}`);
+                }
+            } catch (error) {
+                alert(`❌ ${endpoint}\\n\\nBłąd połączenia: ${error.message}`);
+            } finally {
+                button.textContent = originalText;
+                button.classList.remove('loading');
+            }
+        }
+
+        // Auto-refresh status every 30 seconds
+        setInterval(checkAPIStatus, 30000);
+    </script>
+</body>
 </html>
