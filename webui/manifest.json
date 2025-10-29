@@ -1,0 +1,21 @@
+{
+  "name": "Mordzix AI",
+  "short_name": "Mordzix",
+  "description": "Zaawansowany asystent AI z 30 endpointami i 163 trasami API",
+  "start_url": "/webui/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#1a1a1a",
+  "icons": [
+    {
+      "src": "/webui/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/webui/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -333,7 +333,11 @@ except Exception as e:
 
 # 2. PSYCHE (stan psychiczny AI)
 try:
+<<<<<<< HEAD
     import psyche_endpoint
+=======
+    from core import psyche_endpoint
+>>>>>>> c540ff642a57ffd96981290a61e89b6605969a7b
     app.include_router(psyche_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
         print("✓ Psyche endpoint         /api/psyche/*")
@@ -433,7 +437,11 @@ except Exception as e:
 
 # 12. SUGGESTIONS (proaktywne sugestie)
 try:
+<<<<<<< HEAD
     import suggestions_endpoint
+=======
+    from core import suggestions_endpoint
+>>>>>>> c540ff642a57ffd96981290a61e89b6605969a7b
     app.include_router(suggestions_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
         print("✓ Suggestions endpoint    /api/suggestions/*")
@@ -463,7 +471,11 @@ except Exception as e:
 
 # 15. COGNITIVE (cognitive engine - zaawansowane przetwarzanie)
 try:
+<<<<<<< HEAD
     import cognitive_endpoint
+=======
+    from core import cognitive_endpoint
+>>>>>>> c540ff642a57ffd96981290a61e89b6605969a7b
     app.include_router(cognitive_endpoint.router)
     if not _SUPPRESS_IMPORT_LOGS:
         print("✓ Cognitive endpoint      /api/cognitive/*")
@@ -623,6 +635,7 @@ except Exception as e:
     if not _SUPPRESS_IMPORT_LOGS:
         print(f"✗ Hybrid Search endpoint: {e}")
 
+<<<<<<< HEAD
 # 
 #  PREMIUM ENDPOINTS (31-35)
 # 
@@ -680,6 +693,11 @@ except Exception as e:
 if not _SUPPRESS_IMPORT_LOGS:
     print("\n" + "="*70)
     print("🔥 WSZYSTKIE ENDPOINTY ZAŁADOWANE (35 TOTAL) 🔥")
+=======
+if not _SUPPRESS_IMPORT_LOGS:
+    print("\n" + "="*70)
+    print("🔥 WSZYSTKIE ENDPOINTY ZAŁADOWANE (30 TOTAL) 🔥")
+>>>>>>> c540ff642a57ffd96981290a61e89b6605969a7b
     print("="*70 + "\n")
     print("✅ AI Fashion Manager")
     print("✅ Advanced LLM Integration")
@@ -995,4 +1013,7 @@ if __name__ == "__main__":
 @app.get('/metrics', include_in_schema=False)
 def _metrics():
     return metrics_endpoint()
+<<<<<<< HEAD
 
+=======
+>>>>>>> c540ff642a57ffd96981290a61e89b6605969a7b
